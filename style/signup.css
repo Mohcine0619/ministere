@@ -1,0 +1,57 @@
+/* Container styling */
+.container {
+    font-family: 'Arial', sans-serif; /* Sets the font family to Arial */
+    font-size: 14px; /* Sets the base font size */
+    max-width: 500px; /* Decreased max-width for a smaller form */
+    margin-top: 20px; /* Smaller top margin */
+    background-color: #f8f9fa;
+    padding: 10px; /* Decreased padding for a tighter layout */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Form input and select box styling */
+.form-control {
+    border-radius: 5px;
+    margin-bottom: 5px; /* Decreased margin between form elements */
+    font-size: 13px; /* Slightly smaller font size for form controls */
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #0056b3;
+    border: none;
+    padding: 6px 12px; /* Smaller padding */
+    margin-top: 5px; /* Decreased margin above the button */
+    font-family: 'Helvetica', sans-serif; /* Example of a different font for buttons */
+    font-size: 13px; /* Slightly smaller font size for buttons */
+}
+
+/* Link styling */
+a {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Error message styling */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    font-size: 13px; /* Slightly smaller font size for error messages */
+}
+
+/* Success message styling */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    font-size: 13px; /* Slightly smaller font size for success messages */
+}
+
+/* General form group styling */
+.form-group {
+    margin-bottom: 5px; /* Decreased margin between form groups */
+}

@@ -1,0 +1,105 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+
+  background-color: #333;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 80px; /* Adjust this value based on the height of your navbar */
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.profile-photo-container {
+  margin-right: 20px;
+  text-align: center;
+}
+
+.profile-photo {
+  width: 100px; /* or any other size */
+  height: 100px; /* must be the same as width for a perfect circle */
+  border-radius: 50%; /* this creates the circle */
+  object-fit: cover; /* this keeps the aspect ratio of the image */
+}
+
+.change-photo {
+  display: block;
+  margin: 10px auto;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-actions {
+  text-align: right;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #00bcd4; /* Changed from #007bff to cyan */
+  color: #333; /* Changed text color for better visibility */
+}
+
+.btn-secondary {
+  background-color: #00bcd4; /* Changed from #6c757d to cyan */
+  color: #333; /* Changed text color for better visibility */
+  margin-left: 10px;
+  
+}

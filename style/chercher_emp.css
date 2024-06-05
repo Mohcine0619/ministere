@@ -1,0 +1,168 @@
+/* Import Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(135deg, #f4f4f9, #e0e7ff);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header, footer {
+  background-color: #0056b3;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+header h1, footer p {
+  margin: 0;
+}
+
+.container {
+  flex: 1;
+  position: relative; /* Added to position the entreprise photo */
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.entreprise-photo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 100px; /* Adjust the size as needed */
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+}
+
+.main-content {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-top: 40px; /* Increase margin to separate from search bar */
+}
+
+.employee-info {
+  margin-top: 40px; /* Increased from 20px to 40px for more spacing */
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  position: relative; /* Needed for absolute positioning of the photo */
+  background-color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.employee-info:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.employee-info div {
+  margin: 10px 0;
+}
+
+.details {
+  display: none;
+}
+
+.employee-photo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 100px;
+  height: auto;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.expand-button,
+.shorten-button {
+  background-color: #00bcd4; /* Cyan color */
+  color: white;
+  border: 2px solid #00bcd4; /* Cyan border */
+  padding: 10px 30px; /* Wider buttons */
+  border-radius: 0; /* Square corners */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.expand-button:hover,
+.shorten-button:hover {
+  background-color: #0097a7; /* Darker cyan on hover */
+  border-color: #0097a7; /* Darker cyan border on hover */
+  transform: scale(1.05);
+}
+
+.shorten-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.back-button {
+  background-color: transparent;
+  color: #6c757d;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.back-button:hover {
+  color: #5a6268;
+  transform: scale(1.05);
+}
+
+input[type="text"] {
+  width: calc(100% - 160px); /* Adjusted width to fit the button */
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  display: inline-block; /* Ensure it stays inline with the button */
+  vertical-align: middle; /* Align vertically with the button */
+}
+
+input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button[type="submit"] {
+  background-color: #00bcd4; /* Cyan color */
+  color: white;
+  border: 2px solid #00bcd4; /* Cyan border */
+  padding: 10px 30px; /* Wider button */
+  border-radius: 0; /* Square corners */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 500;
+  display: inline-block; /* Ensure it stays inline with the input */
+  vertical-align: middle; /* Align vertically with the input */
+  margin-left: 10px; /* Add margin to push it to the right */
+}
+
+button[type="submit"]:hover {
+  background-color: #0097a7; /* Darker cyan on hover */
+  border-color: #0097a7; /* Darker cyan border on hover */
+  transform: scale(1.05);
+}
