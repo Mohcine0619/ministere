@@ -27,6 +27,7 @@ $_SESSION['company'] = 'Direction de Tresor'; // Example company name
         <h1>Home</h1>
     </div>
     <?php include 'scboot.php'; ?>
+    <?php include 'footer.php'; ?>
 </body>
 
 

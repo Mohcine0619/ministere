@@ -38,10 +38,16 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Photo</title>
+    <?php include '../pages/boot.php'; ?>
+
+    <?php include '../pages/nav.php'; ?>
+
     <link rel="stylesheet" href="../style/profile.css">
 </head>
 <body>
-    <div class="container">
+<?php include '../pages/side.php'; ?>
+    <?php include '../pages/navbar.php'; ?>
+    <div class="container main-container">
         <h1>Change Profile Photo</h1>
         <p><?php echo $message; ?></p>
         <form action="edit_photo.php" method="post" enctype="multipart/form-data">
@@ -55,5 +61,6 @@ $conn->close();
             </div>
         </form>
     </div>
+    <?php include '../pages/footer.php'; ?>
 </body>
 </html>

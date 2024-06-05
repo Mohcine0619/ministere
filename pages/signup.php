@@ -2,6 +2,16 @@
 session_start(); // Start the session
 require_once '../backend/db.php';
 
+// Fetch poles from the database
+$poles = [];
+$result = $conn->query("SELECT id, nom FROM poles");
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $poles[] = $row;
+    }
+    $result->free();
+}
+
 $message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Collect and sanitize input data
@@ -13,10 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $role = htmlspecialchars($_POST['role']);
     $departement = isset($_POST['departement']) ? htmlspecialchars($_POST['departement']) : null;
     $service = isset($_POST['service']) ? htmlspecialchars($_POST['service']) : null;
-    $dob = htmlspecialchars($_POST['dob']);
+    $nb_post = htmlspecialchars($_POST['nb_post']);
     $occupation = htmlspecialchars($_POST['occupation']);
-    $age = intval($_POST['age']); // Ensure age is treated as an integer
-    $education = htmlspecialchars($_POST['education']);
+    $nb_bureau = intval($_POST['nb_bureau']); // Ensure age is treated as an integer
+    $corps = htmlspecialchars($_POST['corps']);
+    $pole = isset($_POST['pole']) ? htmlspecialchars($_POST['pole']) : null;
 
     // Check if passwords match and length requirement
     if ($password === $cpassword && strlen($password) >= 6) {
@@ -42,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         }
 
         // Prepare SQL statement to insert data into the database
-        $stmt = $conn->prepare("INSERT INTO employes (fullName, email, id_departement, id_service, role, photo, password, username, dob, occupation, age, education) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO employes (fullName, email, id_pole, id_departement, id_service, role, photo, password, username, nb_post, occupation, nb_bureau, corps) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if ($stmt) {
-            $stmt->bind_param("ssssssssssis", $fullName, $email, $departement, $service, $role, $photo, $hashed_password, $username, $dob, $occupation, $age, $education);
+            $stmt->bind_param("ssiiissssisis", $fullName, $email, $pole, $departement, $service, $role, $photo, $hashed_password, $username, $nb_post, $occupation, $nb_bureau, $corps);
 
             // Execute the statement
             if ($stmt->execute()) {
@@ -129,6 +140,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 <option value="employe">Employé</option>
             </select>
         </div>
+        <div class="form-group" id="poleSelection" style="display:none;">
+            <label for="pole">Pole:</label>
+            <select class="form-control" id="pole" name="pole">
+                <?php
+                foreach ($poles as $pole) {
+                    echo '<option value="' . $pole['id'] . '">' . $pole['nom'] . '</option>';
+                }
+                ?>
+            </select>
+        </div>
         <div class="form-group" id="departement" style="display:none;">
             <label for="departement">Département:</label>
             <select class="form-control" name="departement">
@@ -163,20 +184,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             <input type="file" class="form-control" id="photo" name="photo" accept=".jpg, .jpeg, .png">
         </div>
         <div class="form-group">
-            <label for="dob">Date of Birth:</label>
-            <input type="date" class="form-control" id="dob" name="dob" required>
+            <label for="nb_post">Nombre de post:</label>
+            <input type="number" class="form-control" id="nb_post" name="nb_post" required>
         </div>
         <div class="form-group">
             <label for="occupation">Occupation:</label>
             <input type="text" class="form-control" id="occupation" name="occupation" required>
         </div>
         <div class="form-group">
-            <label for="age">Age:</label>
-            <input type="number" class="form-control" id="age" name="age" required>
+            <label for="nb_bureau">Nombre de bureau:</label>
+            <input type="number" class="form-control" id="nb_bureau" name="nb_bureau" required>
         </div>
         <div class="form-group">
-            <label for="education">Education:</label>
-            <textarea class="form-control" id="education" name="education" required></textarea>
+            <label for="corps">Corps:</label>
+            <textarea class="form-control" id="corps" name="corps" required></textarea>
         </div>
         <button type="submit" name="submit" class="btn btn-primary" value="SignUp">SignUp</button>
         <a href="login.php">Déjà inscrit ?</a>
@@ -194,16 +215,20 @@ function showSectionsBasedOnRole() {
     var role = document.getElementById('role').value;
     var serviceSelection = document.getElementById('serviceSelection');
     var departement = document.getElementById('departement');
+    var poleSelection = document.getElementById('poleSelection');
 
     if (role === 'chef de service' || role === 'employe') {
         serviceSelection.style.display = 'block';
         departement.style.display = 'block';
+        poleSelection.style.display = 'block';
     } else if (role === 'directeur') {
         serviceSelection.style.display = 'none';
         departement.style.display = 'block';
+        poleSelection.style.display = 'block';
     } else {
         serviceSelection.style.display = 'none';
         departement.style.display = 'none';
+        poleSelection.style.display = 'none';
     }
 }
 

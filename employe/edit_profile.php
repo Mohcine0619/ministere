@@ -23,14 +23,15 @@ $userData = $result->fetch_assoc();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $dob = $_POST['dob'];
-    $age = $_POST['age'];
-    $education = $_POST['education'];
+    $nb_post = $_POST['nb_post'];
+    $occupation = $_POST['occupation'];
+    $nb_bureau = $_POST['nb_bureau'];
+    $corps = $_POST['corps'];
 
-    // Update username, email, dob, age, education
-    $update_sql = "UPDATE employes SET username = ?, email = ?, dob = ?, age = ?, education = ? WHERE id = ?";
+    // Update username, email, nb_post, occupation, nb_bureau, corps
+    $update_sql = "UPDATE employes SET username = ?, email = ?, nb_post = ?, occupation = ?, nb_bureau = ?, corps = ? WHERE id = ?";
     $update_stmt = $conn->prepare($update_sql);
-    $update_stmt->bind_param("ssssii", $username, $email, $dob, $age, $education, $user_id);
+    $update_stmt->bind_param("ssisssi", $username, $email, $nb_post, $occupation, $nb_bureau, $corps, $user_id);
     $update_stmt->execute();
     if ($update_stmt->error) {
         $message = 'Error updating profile: ' . $update_stmt->error;
@@ -51,7 +52,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
-    <link rel="stylesheet" href="../style/profile.css">
+    <?php include '../pages/boot.php'; ?>
+    <link rel="stylesheet" href="../style/profile.css?v=<?php echo time(); ?>">
     <?php include '../pages/nav.php'; ?>
 </head>
 <body>
@@ -70,16 +72,20 @@ $conn->close();
                 <input type="email" name="email" value="<?php echo htmlspecialchars($userData['email']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="dob">Date of Birth:</label>
-                <input type="date" name="dob" value="<?php echo htmlspecialchars($userData['dob']); ?>" required>
+                <label for="nb_post">Nombre de post:</label>
+                <input type="number" name="nb_post" value="<?php echo htmlspecialchars($userData['nb_post']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="number" name="age" value="<?php echo htmlspecialchars($userData['age']); ?>" required>
+                <label for="occupation">Occupation:</label>
+                <input type="text" name="occupation" value="<?php echo htmlspecialchars($userData['occupation']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="education">Education:</label>
-                <input type="text" name="education" value="<?php echo htmlspecialchars($userData['education']); ?>" required>
+                <label for="nb_bureau">Nombre de bureau:</label>
+                <input type="number" name="nb_bureau" value="<?php echo htmlspecialchars($userData['nb_bureau']); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="corps">Corps:</label>
+                <textarea name="corps" style="height: 150px;" required><?php echo htmlspecialchars($userData['corps']); ?></textarea>
             </div>
             <div class="form-actions">
                 <a href="profile.php" class="btn btn-secondary">Cancel</a>
@@ -87,5 +93,6 @@ $conn->close();
             </div>
         </form>
     </div>
+    <?php include '../pages/footer.php'; ?>
 </body>
 </html>

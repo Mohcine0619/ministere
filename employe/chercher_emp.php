@@ -11,10 +11,14 @@ if (!isset($_SESSION['user_id'])) {
 $search = $_GET['search'] ?? ''; // Get the search term from the URL parameter
 
 // Prepare and execute search query
-$sql = "SELECT employes.*, departements.nom as departement, services.nom as service, employes.role, employes.dob, employes.occupation, employes.createdAt, employes.photo FROM employes LEFT JOIN departements ON employes.id_departement = departements.id LEFT JOIN services ON employes.id_service = services.id WHERE employes.fullName LIKE ? OR departements.nom LIKE ? OR services.nom LIKE ? OR employes.role LIKE ? OR employes.dob LIKE ? OR employes.occupation LIKE ? OR employes.createdAt LIKE ?";
+$sql = "SELECT employes.*, departements.nom as departement, services.nom as service, poles.nom as pole FROM employes 
+        LEFT JOIN departements ON employes.id_departement = departements.id 
+        LEFT JOIN services ON employes.id_service = services.id 
+        LEFT JOIN poles ON employes.id_pole = poles.id 
+        WHERE employes.fullName LIKE ? OR departements.nom LIKE ? OR services.nom LIKE ? OR poles.nom LIKE ? OR employes.role LIKE ? OR employes.occupation LIKE ? OR employes.email LIKE ? OR employes.username LIKE ? OR employes.nb_post LIKE ? OR employes.nb_bureau LIKE ? OR employes.corps LIKE ?";
 $stmt = $conn->prepare($sql);
 $searchTerm = "%$search%";
-$stmt->bind_param("sssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+$stmt->bind_param("sssssssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -49,14 +53,18 @@ $result = $stmt->get_result();
                         <img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Employee Photo" class="employee-photo">
                         <div><strong>Full Name:</strong> <?php echo htmlspecialchars($row['fullName']); ?></div>
                         <div><strong>Search Term:</strong> <?php echo htmlspecialchars($search); ?></div>
-                        <button class="expand-button" onclick="expandDetails(this)">Expand</button>
+                        <button class="expand-button" onclick="expandDetails(this)">Details</button>
                         <div class="details" style="display:none;">
                             <div><strong>Department:</strong> <?php echo htmlspecialchars($row['departement']); ?></div>
                             <div><strong>Service:</strong> <?php echo htmlspecialchars($row['service']); ?></div>
+                            <div><strong>Pole:</strong> <?php echo htmlspecialchars($row['pole']); ?></div>
                             <div><strong>Role:</strong> <?php echo htmlspecialchars($row['role']); ?></div>
-                            <div><strong>Date of Birth:</strong> <?php echo htmlspecialchars($row['dob']); ?></div>
                             <div><strong>Occupation:</strong> <?php echo htmlspecialchars($row['occupation']); ?></div>
-                            <div><strong>Created At:</strong> <?php echo htmlspecialchars($row['createdAt']); ?></div>
+                            <div><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></div>
+                            <div><strong>Username:</strong> <?php echo htmlspecialchars($row['username']); ?></div>
+                            <div><strong>Nombre de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>
+                            <div><strong>Nombre de bureau:</strong> <?php echo htmlspecialchars($row['nb_bureau']); ?></div>
+                            <div><strong>Corps:</strong> <?php echo htmlspecialchars($row['corps']); ?></div>
                             <button class="shorten-button" onclick="shortenDetails(this)" style="display:none;">Shorten</button>
                         </div>
                     </li>
@@ -88,5 +96,7 @@ $result = $stmt->get_result();
             detailsDiv.previousElementSibling.style.display = 'inline'; // Show the expand button
         }
     </script>
+    <?php include '../pages/footer.php'; ?>
 </body>
 </html>
+

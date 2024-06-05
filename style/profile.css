@@ -81,6 +81,15 @@ body {
   border-radius: 4px;
 }
 
+.form-group textarea[name="corps"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: auto; /* Remove fixed height */
+  line-height: 1.6; /* Match the line-height of the body */
+}
+
 .form-actions {
   text-align: right;
 }
