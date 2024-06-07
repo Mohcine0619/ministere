@@ -32,6 +32,34 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="../style/chercher_emp.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <?php include '../pages/nav.php'; ?>
+    <style>
+        .modify-button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .add-button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <?php include '../pages/side.php'; ?>
@@ -41,10 +69,11 @@ $result = $stmt->get_result();
         <img src="../uploads/entreprise.jpg" alt="Entreprise Photo" class="entreprise-photo">
         <button class="back-button" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
         <h1>Search Employees</h1>
-        <form action="chercher_emp.php" method="get">
+        <form action="liste_employes.php" method="get">
             <input type="text" name="search" placeholder="Search by..." value="<?php echo htmlspecialchars($search); ?>">
             <button type="submit">Search</button>
         </form>
+        <a href="add_employee.php" class="add-button">Ajouter Employee</a>
 
         <?php if ($result->num_rows > 0): ?>
             <ul>
@@ -66,6 +95,8 @@ $result = $stmt->get_result();
                             <div><strong>Nombre de bureau:</strong> <?php echo htmlspecialchars($row['nb_bureau']); ?></div>
                             <div><strong>Corps:</strong> <?php echo htmlspecialchars($row['corps']); ?></div>
                             <button class="shorten-button" onclick="shortenDetails(this)" style="display:none;">Shorten</button>
+                            <button class="modify-button" onclick="showModifyModal(<?php echo $row['id']; ?>)">Modify</button>
+                            <button class="delete-button" onclick="showDeleteModal(<?php echo $row['id']; ?>)">Delete</button>
                         </div>
                     </li>
                 <?php endwhile; ?>
@@ -80,6 +111,45 @@ $result = $stmt->get_result();
         $conn->close();
         ?>
     </div>
+
+    <!-- Modify Modal -->
+    <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modifyModalLabel">Modify Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do you want to change employee info?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmModifyButton">Modify</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this employee?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?php include '../pages/scboot.php'; ?>
     <script>
         function expandDetails(button) {
@@ -94,6 +164,39 @@ $result = $stmt->get_result();
             detailsDiv.style.display = 'none';
             button.style.display = 'none';
             detailsDiv.previousElementSibling.style.display = 'inline'; // Show the expand button
+        }
+
+        function showModifyModal(id) {
+            var modifyModal = new bootstrap.Modal(document.getElementById('modifyModal'));
+            document.getElementById('confirmModifyButton').onclick = function() {
+                window.location.href = 'modifier_emp.php?id=' + id;
+            };
+            modifyModal.show();
+        }
+
+        function showDeleteModal(id) {
+            var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            document.getElementById('confirmDeleteButton').onclick = function() {
+                deleteEmployee(id);
+            };
+            deleteModal.show();
+        }
+
+        function deleteEmployee(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'delete_employee.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Handle success
+                    alert('Employee deleted successfully.');
+                    location.reload(); // Reload the page to reflect changes
+                } else if (xhr.readyState === 4) {
+                    // Handle error
+                    alert('Error deleting employee.');
+                }
+            };
+            xhr.send('id=' + id);
         }
     </script>
     <?php include '../pages/footer.php'; ?>

@@ -37,14 +37,24 @@ body {
   align-items: center;
   margin-bottom: 20px;
 }
-
+.profile-info .corps {
+  width: 100%; /* Ensure the corps field takes the full width of its container */
+  max-width: 100%; /* Ensure the corps field does not exceed the container width */
+  word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
+  white-space: normal; /* Allow text to wrap normally */
+  overflow: hidden; /* Hide any overflowing text */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  padding: 8px; /* Add padding to ensure text does not touch the edges */
+}
 .profile-container {
   display: flex;
   align-items: flex-start;
+  max-width: 100%; /* Ensure the profile-container does not exceed the available width */
 }
 
 .profile-photo-container {
-  margin-right: 20px;
+  margin-right: 50px;
   text-align: center;
 }
 
@@ -61,7 +71,9 @@ body {
 }
 
 .profile-info {
-  flex: 1;
+  width: 100%; /* Ensure the profile-info container takes full width */
+  text-align: left; 
+  overflow: hidden; /* Ensure any overflow is hidden */
 }
 
 .form-group {
@@ -92,6 +104,7 @@ body {
 
 .form-actions {
   text-align: right;
+  width: 100%; 
 }
 
 .btn {
@@ -111,4 +124,13 @@ body {
   color: #333; /* Changed text color for better visibility */
   margin-left: 10px;
   
+}
+
+
+
+.profile-info p {
+  word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
+  white-space: normal; /* Allow text to wrap normally */
+  overflow: hidden; /* Hide any overflowing text */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
 }

@@ -7,18 +7,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $username = htmlspecialchars($_POST['username']); // Changed from email to username
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT id, username, password FROM employes WHERE username = ?"); // Changed email to username in SQL
+    $stmt = $conn->prepare("SELECT id, username, password, role FROM employes WHERE username = ?"); // Fetch role as well
     if ($stmt) {
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $stmt->store_result();
         if ($stmt->num_rows == 1) {
-            $stmt->bind_result($user_id, $db_username, $db_password); // Changed db_email to db_username
+            $stmt->bind_result($user_id, $db_username, $db_password, $db_role); // Bind role
             $stmt->fetch();
             if (password_verify($password, $db_password)) {
                 // Set session variables
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['username'] = $db_username; // Changed email to username
+                $_SESSION['role'] = $db_role; // Store role in session
                 $_SESSION['logged_in'] = true;
 
                 // Redirect to dashboard or home page

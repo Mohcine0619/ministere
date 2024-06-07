@@ -19,7 +19,7 @@ if ($result) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize input data
     $nom_pole = htmlspecialchars($_POST['nom']);
-    $nom_direc = isset($_POST['nom_responsable']) ? htmlspecialchars($_POST['nom_responsable']) : '';
+    $nom_direc = isset($_POST['nom_responsable']) && $_POST['nom_responsable'] !== 'None' ? htmlspecialchars($_POST['nom_responsable']) : null;
 
     // Prepare SQL statement to insert data into the database
     $stmt = $conn->prepare("INSERT INTO poles (nom, nom_directeur) VALUES (?, ?)");
@@ -121,23 +121,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-color: #c3e6cb; /* Green border color for success */
         }
     </style>
-    <script>
-        function validateForm() {
-            var nomResponsable = document.getElementById("nom_responsable").value;
-            if (nomResponsable === "") {
-                alert("Nom Responsable must be selected");
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
 <body>
 <?php include '../pages/side.php'; ?>
 <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
     <h2>Add Pole</h2>
-    <form action="addPole.php" method="POST" onsubmit="return validateForm()">
+    <form action="addPole.php" method="POST">
         <div>
             <label for="nom">Nom:</label>
             <input type="text" id="nom" name="nom" required>
@@ -146,12 +136,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="nom_responsable">Nom Responsable:</label>
             <select id="nom_responsable" name="nom_responsable">
                 <option value="">Select Nom Responsable</option>
+                <option value="None">None</option> <!-- Added None option -->
                 <?php foreach ($nom_directeurs as $nom_directeur): ?>
                     <option value="<?php echo htmlspecialchars($nom_directeur); ?>"><?php echo htmlspecialchars($nom_directeur); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
-        <button type="submit">Add Pole</button>
+        <div style="display: flex; justify-content: space-between;">
+            <button type="button" style="width: 48%; background-color: dimgray; color: white;" onclick="window.location.href='../pages/home.php'">Cancel</button>
+            <button type="submit" style="width: 48%;">Add Pole</button>
+        </div>
     </form>
 </div>
 <?php include '../pages/scboot.php'; ?>

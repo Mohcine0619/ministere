@@ -20,13 +20,14 @@ if (isset($_SESSION['role'])) {
     <a href="../employe/profile.php"><i class="fas fa-user"></i> <span class="link-text">Profile</span></a>
     <a href="../employe/chercher_emp.php"><i class="fas fa-search"></i> <span class="link-text">Chercher Employes</span></a>
     
-    <?php if ($user_role === 'rh'): ?>
+    <?php if ($user_role === 'rh' || $user_role === 'RH'): ?>
     <div class="dropdown">
         <a href="#"><i class="fas fa-wrench"></i> <span class="link-text">Advanced Settings</span></a>
         <div class="dropdown-content">
             <a href="../modification/addPole.php"><i class="fas fa-plus"></i> <span class="link-text">Add Pole</span></a>
             <a href="../modification/addDepartement.php"><i class="fas fa-plus"></i> <span class="link-text">Add Departement</span></a>
             <a href="../modification/addService.php"><i class="fas fa-plus"></i> <span class="link-text">Add Service</span></a>
+            <a href="../modification/liste_branche.php"><i class="fas fa-list"></i> <span class="link-text">liste des branches</span></a>
             <a href="../modification/liste_employes.php"><i class="fas fa-list"></i> <span class="link-text">Liste des Employes</span></a>
         </div>
     </div>
@@ -66,7 +67,7 @@ if (isset($_SESSION['role'])) {
     }
 
     .dropdown-content a:hover {
-        background-color: #575757; /* Optional: Change color on hover */
+        background-color: #0097a7; /* Optional: Change color on hover */
     }
 
     .dropdown:hover .dropdown-content {

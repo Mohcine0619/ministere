@@ -66,7 +66,7 @@ $conn->close();
                     <p>Nombre de post: <?php echo htmlspecialchars($userData['nb_post']); ?></p>
                     <p>Occupation: <?php echo htmlspecialchars($userData['occupation']); ?></p>
                     <p>Nombre de bureau: <?php echo htmlspecialchars($userData['nb_bureau']); ?></p>
-                    <p>Corps: <?php echo htmlspecialchars($userData['corps']); ?></p>
+                    <p class="corps">Corps: <?php echo htmlspecialchars($userData['corps']); ?></p>
                     <!-- Edit Profile Button -->
                     <div class="form-actions">
                         <a href="../pages/home.php" class="btn btn-primary">Back</a>

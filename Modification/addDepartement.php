@@ -15,6 +15,16 @@ if ($result) {
     $result->free();
 }
 
+// Fetch directors from the employes table where role is 'directeur'
+$directeurs = [];
+$result = $conn->query("SELECT fullName FROM employes WHERE role = 'directeur'");
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $directeurs[] = $row;
+    }
+    $result->free();
+}
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize input data
@@ -49,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Add Department</title>
     <?php include '../pages/boot.php'; ?>
     <?php include '../pages/nav.php'; ?>
-    <link rel="stylesheet" href="../style/addDepartement.css">
+
     <style>
         /* General container styling */
         .container {
@@ -136,7 +146,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div>
             <label for="nom_directeur">Nom Directeur:</label>
-            <input type="text" id="nom_directeur" name="nom_directeur">
+            <select id="nom_directeur" name="nom_directeur">
+                <option value="">Select a director</option>
+                <?php foreach ($directeurs as $directeur): ?>
+                    <option value="<?php echo htmlspecialchars($directeur['fullName']); ?>">
+                        <?php echo htmlspecialchars($directeur['fullName']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div>
             <label for="nom_pole">Nom de Pole:</label>
@@ -148,7 +165,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php endforeach; ?>
             </select>
         </div>
-        <button type="submit">Add Department</button>
+        <div style="display: flex; justify-content: space-between;">
+            <button type="button" style="width: 48%; background-color: dimgray; color: white;" onclick="window.location.href='../pages/home.php'">Cancel</button>
+            <button type="submit" style="width: 48%;">Add Department</button>
+        </div>
     </form>
 </div>
 <?php include '../pages/scboot.php'; ?>

@@ -62,6 +62,9 @@ header h1, footer p {
   position: relative; /* Needed for absolute positioning of the photo */
   background-color: #fff;
   transition: transform 0.2s, box-shadow 0.2s;
+  max-width: 100%;
+  word-wrap: break-word; /* Ensure long words break to the next line */
+  overflow-wrap: break-word; /* Ensure long words break to the next line */
 }
 
 .employee-info:hover {
@@ -70,7 +73,9 @@ header h1, footer p {
 }
 
 .employee-info div {
+  max-width: 100%;
   margin: 10px 0;
+  overflow: hidden;
 }
 
 .details {
@@ -100,17 +105,16 @@ header h1, footer p {
   margin-top: 10px;
 }
 
+.shorten-button {
+  position: relative; /* Change to relative to allow container expansion */
+  display: inline-block; /* Ensure it stays inline with the container */
+}
+
 .expand-button:hover,
 .shorten-button:hover {
   background-color: #0097a7; /* Darker cyan on hover */
   border-color: #0097a7; /* Darker cyan border on hover */
   transform: scale(1.05);
-}
-
-.shorten-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
 }
 
 .back-button {

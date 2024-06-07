@@ -1,5 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #0097a7; direction: rtl;">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light w-100" style="background-color: #333; direction: rtl;">
+    <style>
+        .navbar-nav .nav-link:hover {
+            color: #0097a7 !important;
+        }
+    </style>
+    <div class="container-fluid w-100">
         <a class="navbar-brand" href="#">
             <img src="../uploads/entreprise.jpg" alt="Entreprise Logo" height="30">
         </a>

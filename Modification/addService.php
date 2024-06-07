@@ -15,6 +15,16 @@ if ($result) {
     $result->free();
 }
 
+// Fetch chefs de service from the employes table where role is 'chef de service'
+$chefs = [];
+$result = $conn->query("SELECT id, fullName FROM employes WHERE role = 'chef de service'");
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $chefs[] = $row;
+    }
+    $result->free();
+}
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize input data
@@ -144,17 +154,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div>
             <label for="nom_chef">Nom Chef:</label>
-            <input type="text" id="nom_chef" name="nom_chef">
+            <select id="nom_chef" name="nom_chef">
+                <option value="">Select a chef</option>
+                <?php foreach ($chefs as $chef): ?>
+                    <option value="<?php echo htmlspecialchars($chef['fullName']); ?>">
+                        <?php echo htmlspecialchars($chef['fullName']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div>
             <label for="id_departement">Department:</label>
             <select id="id_departement" name="id_departement">
-                <?php foreach ($departments as $department) { ?>
+            <?php foreach ($departments as $department) { ?>
                     <option value="<?php echo $department['id']; ?>"><?php echo $department['nom']; ?></option>
                 <?php } ?>
             </select>
         </div>
-        <button type="submit">Add Service</button>
+        <div style="display: flex; justify-content: space-between;">
+            <button type="button" style="width: 48%; background-color: dimgray; color: white;" onclick="window.location.href='../pages/home.php'">Cancel</button>
+            <button type="submit" style="width: 48%;">Add Service</button>
+        </div>
     </form>
 </div>
 <?php include '../pages/scboot.php'; ?>

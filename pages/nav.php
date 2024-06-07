@@ -6,7 +6,7 @@
             z-index: 1; /* Stay on top */
             top: 0; /* Stay at the top */
             left: 0;
-            background-color: #0097a7; /* cyan */
+            background-color: #333; /* cyan */
             overflow-x: hidden; /* Disable horizontal scroll */
             padding-top: 20px;
             transition: width 0.5s ease;
@@ -23,7 +23,7 @@
         }
 
         .sidebar a:hover {
-            background-color: #575757; /* Dark grey */
+            background-color: #0097a7; /* Dark grey */
             padding-left: 20px;
         }
 
