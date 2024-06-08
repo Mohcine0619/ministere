@@ -19,6 +19,8 @@ if (isset($_SESSION['role'])) {
     <a href="../pages/home.php"><i class="fas fa-home"></i> <span class="link-text">Home</span></a>
     <a href="../employe/profile.php"><i class="fas fa-user"></i> <span class="link-text">Profile</span></a>
     <a href="../employe/chercher_emp.php"><i class="fas fa-search"></i> <span class="link-text">Chercher Employes</span></a>
+    <a href="../employe/demander_conge.php"><i class="fas fa-calendar-alt"></i> <span class="link-text">Demander Congé</span></a>
+
     
     <?php if ($user_role === 'rh' || $user_role === 'RH'): ?>
     <div class="dropdown">
@@ -29,6 +31,7 @@ if (isset($_SESSION['role'])) {
             <a href="../modification/addService.php"><i class="fas fa-plus"></i> <span class="link-text">Add Service</span></a>
             <a href="../modification/liste_branche.php"><i class="fas fa-list"></i> <span class="link-text">liste des branches</span></a>
             <a href="../modification/liste_employes.php"><i class="fas fa-list"></i> <span class="link-text">Liste des Employes</span></a>
+            <a href="../modification/gerer_conge.php"><i class="fas fa-list"></i> <span class="link-text">Liste des Conges</span></a>
         </div>
     </div>
     <?php endif; ?>

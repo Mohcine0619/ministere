@@ -31,7 +31,7 @@ $conn->close();
     <?php include 'side.php'; ?>
     <?php include 'navbar.php'; ?>
     <div class="container main-content">
-        <h1>Home</h1>
+        <h1>Acceuil</h1>
         <div class="dashboard">
             <a href="../Modification/liste_branche.php" class="card">
                 <h2><?php echo $totalPoles; ?></h2>
