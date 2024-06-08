@@ -38,7 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $deptCheckStmt->execute();
     $deptResult = $deptCheckStmt->get_result();
     if ($deptResult->num_rows == 0) {
-        die("Department does not exist.");
+        $_SESSION['message'] = 'Department does not exist.';
+        $_SESSION['message_type'] = 'error';
+        header("Location: addService.php");
+        exit();
     }
 
     // Prepare SQL statement to insert data into the database
@@ -48,15 +51,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute the statement
         if ($stmt->execute()) {
-            echo "<script>alert('New service added successfully');</script>";
+            $_SESSION['message'] = 'New service added successfully';
+            $_SESSION['message_type'] = 'success';
         } else {
-            echo "<script>alert('Error: " . $stmt->error . "');</script>";
+            $_SESSION['message'] = 'Error: ' . $stmt->error;
+            $_SESSION['message_type'] = 'error';
         }
         $stmt->close();
     } else {
-        echo "<script>alert('Error preparing statement: " . $conn->error . "');</script>";
+        $_SESSION['message'] = 'Error preparing statement: ' . $conn->error;
+        $_SESSION['message_type'] = 'error';
     }
     $conn->close();
+    header("Location: addService.php");
+    exit();
 }
 ?>
 
@@ -147,6 +155,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
     <h2>Add Service</h2>
+    <?php if (isset($_SESSION['message'])): ?>
+        <div class="alert <?php echo $_SESSION['message_type'] == 'success' ? 'alert-success' : ''; ?>">
+            <?php echo $_SESSION['message']; unset($_SESSION['message'], $_SESSION['message_type']); ?>
+        </div>
+    <?php endif; ?>
     <form action="addService.php" method="POST">
         <div>
             <label for="nom">Nom:</label>
@@ -166,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div>
             <label for="id_departement">Department:</label>
             <select id="id_departement" name="id_departement">
-            <?php foreach ($departments as $department) { ?>
+                <?php foreach ($departments as $department) { ?>
                     <option value="<?php echo $department['id']; ?>"><?php echo $department['nom']; ?></option>
                 <?php } ?>
             </select>

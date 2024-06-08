@@ -50,7 +50,7 @@ $result = $stmt->get_result();
             margin-left: 5px;
         }
         .add-button {
-            background-color: blue;
+            background-color: #007bff; /* Bootstrap primary color */
             color: white;
             border: none;
             padding: 10px 20px;
@@ -58,6 +58,12 @@ $result = $stmt->get_result();
             margin-top: 10px;
             display: inline-block;
             text-decoration: none;
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+
+        .add-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
         }
     </style>
 </head>

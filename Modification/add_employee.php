@@ -89,6 +89,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     <?php include '../pages/nav.php'; ?>
     <link rel="stylesheet" href="../style/signup.css">
 </head>
+<style>
+    .btn-secondary {
+    background-color: #333;
+    border: none;
+    padding: 6px 12px; /* Smaller padding */
+    margin-top: 5px; /* Decreased margin above the button */
+    font-family: 'Helvetica', sans-serif; /* Example of a different font for buttons */
+    font-size: 13px; /* Slightly smaller font size for buttons */
+}
+</style>
 <body>
 <?php include '../pages/side.php'; ?>
 <?php include '../pages/navbar.php'; ?>
@@ -100,88 +110,90 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
     ?>
     <form action="add_employee.php" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="fullName">Full Name:</label>
-            <input type="text" class="form-control" id="fullName" name="fullName" required>
-        </div>
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="role">Role:</label>
-            <select class="form-control" id="role" name="role">
-                <option value="rh">RH</option>
-                <option value="directeur">Directeur</option>
-                <option value="chef de service">Chef de Service</option>
-                <option value="employe">Employé</option>
-            </select>
-        </div>
-        <div class="form-group" id="poleSelection" style="display:none;">
-            <label for="pole">Pole:</label>
-            <select class="form-control" id="pole" name="pole">
-                <?php
-                foreach ($poles as $pole) {
-                    echo '<option value="' . $pole['id'] . '">' . $pole['nom'] . '</option>';
+    <!-- Existing form fields -->
+    <div class="form-group">
+        <label for="fullName">Full Name:</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" required>
+    </div>
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="role">Role:</label>
+        <select class="form-control" id="role" name="role">
+            <option value="rh">RH</option>
+            <option value="directeur">Directeur</option>
+            <option value="chef de service">Chef de Service</option>
+            <option value="employe">Employé</option>
+        </select>
+    </div>
+    <div class="form-group" id="poleSelection" style="display:none;">
+        <label for="pole">Pole:</label>
+        <select class="form-control" id="pole" name="pole">
+            <?php
+            foreach ($poles as $pole) {
+                echo '<option value="' . $pole['id'] . '">' . $pole['nom'] . '</option>';
+            }
+            ?>
+        </select>
+    </div>
+    <div class="form-group" id="departement" style="display:none;">
+        <label for="departement">Département:</label>
+        <select class="form-control" name="departement">
+            <!-- Populate with departments from your database -->
+            <?php
+            $query = "SELECT id, nom FROM departements";
+            $result = $conn->query($query);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo '<option value="' . $row['id'] . '">' . $row['nom'] . '</option>';
                 }
-                ?>
-            </select>
-        </div>
-        <div class="form-group" id="departement" style="display:none;">
-            <label for="departement">Département:</label>
-            <select class="form-control" name="departement">
-                <!-- Populate with departments from your database -->
-                <?php
-                $query = "SELECT id, nom FROM departements";
-                $result = $conn->query($query);
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        echo '<option value="' . $row['id'] . '">' . $row['nom'] . '</option>';
-                    }
+            }
+            ?>
+        </select>
+    </div>
+    <div class="form-group" id="serviceSelection" style="display:none;">
+        <label for="service">Service:</label>
+        <select class="form-control" id="service" name="service">
+            <?php
+            $query = "SELECT id, nom FROM services";
+            $result = $conn->query($query);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo '<option value="' . $row['id'] . '">' . $row['nom'] . '</option>';
                 }
-                ?>
-            </select>
-        </div>
-        <div class="form-group" id="serviceSelection" style="display:none;">
-            <label for="service">Service:</label>
-            <select class="form-control" id="service" name="service">
-                <?php
-                $query = "SELECT id, nom FROM services";
-                $result = $conn->query($query);
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        echo '<option value="' . $row['id'] . '">' . $row['nom'] . '</option>';
-                    }
-                }
-                ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="photo">Photo:</label>
-            <input type="file" class="form-control" id="photo" name="photo">
-        </div>
-        <div class="form-group">
-            <label for="nb_post">Nombre de post:</label>
-            <input type="number" class="form-control" id="nb_post" name="nb_post" required>
-        </div>
-        <div class="form-group">
-            <label for="occupation">Occupation:</label>
-            <input type="text" class="form-control" id="occupation" name="occupation" required>
-        </div>
-        <div class="form-group">
-            <label for="nb_bureau">Nombre de bureau:</label>
-            <input type="number" class="form-control" id="nb_bureau" name="nb_bureau" required>
-        </div>
-        <div class="form-group">
-            <label for="corps">Corps:</label>
-            <input type="text" class="form-control" id="corps" name="corps" required>
-        </div>
-        <button type="submit" class="btn btn-primary" name="submit">Ajouter</button>
-    </form>
+            }
+            ?>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="photo">Photo:</label>
+        <input type="file" class="form-control" id="photo" name="photo">
+    </div>
+    <div class="form-group">
+        <label for="nb_post">Nombre de post:</label>
+        <input type="number" class="form-control" id="nb_post" name="nb_post" required>
+    </div>
+    <div class="form-group">
+        <label for="occupation">Occupation:</label>
+        <input type="text" class="form-control" id="occupation" name="occupation" required>
+    </div>
+    <div class="form-group">
+        <label for="nb_bureau">Nombre de bureau:</label>
+        <input type="number" class="form-control" id="nb_bureau" name="nb_bureau" required>
+    </div>
+    <div class="form-group">
+        <label for="corps">Corps:</label>
+        <input type="text" class="form-control" id="corps" name="corps" required>
+    </div>
+    <button type="submit" class="btn btn-primary" name="submit">Ajouter</button>
+    <a href="liste_employes.php" class="btn btn-secondary">Cancel</a>
+</form>
 </div>
 
 <script>

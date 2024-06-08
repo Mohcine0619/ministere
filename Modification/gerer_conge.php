@@ -41,11 +41,37 @@ $result = $conn->query($query);
     <title>Manage Leave Requests</title>
     <?php include '../pages/boot.php'; ?>
     <?php include '../pages/nav.php'; ?>
+    <style>
+    .container {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 0 auto; /* Center the container */
+    max-width: calc(100% - 200px); /* Adjust this value to match the width of your sidebar */
+    transform: translateX(90px); 
+    }/* Shift content to the left */
+    .back-button {
+    background-color: transparent;
+    color: #6c757d;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.2s;
+    font-size: 20px;
+    margin-bottom: 20px;
+    transform: translateX(-440px); /* Shift content to the left */
+
+}
+</style>
 </head>
 <body>
 <?php include '../pages/side.php'; ?>
     <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
+<button class="back-button" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
     <h2>Manage Leave Requests</h2>
     <?php if ($result && $result->num_rows > 0): ?>
         <table class="table table-bordered">

@@ -28,15 +28,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute the statement
         if ($stmt->execute()) {
-            echo "<script>alert('New pole added successfully');</script>";
+            $_SESSION['message'] = 'New pole added successfully';
+            $_SESSION['message_type'] = 'success';
         } else {
-            echo "<script>alert('Error: " . $stmt->error . "');</script>";
+            $_SESSION['message'] = 'Error: ' . $stmt->error;
+            $_SESSION['message_type'] = 'error';
         }
         $stmt->close();
     } else {
-        echo "<script>alert('Error preparing statement: " . $conn->error . "');</script>";
+        $_SESSION['message'] = 'Error preparing statement: ' . $conn->error;
+        $_SESSION['message_type'] = 'error';
     }
     $conn->close();
+    header("Location: addPole.php");
+    exit();
 }
 ?>
 
@@ -121,13 +126,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-color: #c3e6cb; /* Green border color for success */
         }
     </style>
+    <script>
+        function validateForm() {
+            var nomResponsable = document.getElementById("nom_responsable").value;
+            if (nomResponsable === "") {
+                alert("S'il vous plaît sélectionner un directeur");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 <?php include '../pages/side.php'; ?>
 <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
     <h2>Add Pole</h2>
-    <form action="addPole.php" method="POST">
+    <?php if (isset($_SESSION['message'])): ?>
+        <div class="alert <?php echo $_SESSION['message_type'] == 'success' ? 'alert-success' : ''; ?>">
+            <?php echo $_SESSION['message']; unset($_SESSION['message'], $_SESSION['message_type']); ?>
+        </div>
+    <?php endif; ?>
+    <form action="addPole.php" method="POST" onsubmit="return validateForm()">
         <div>
             <label for="nom">Nom:</label>
             <input type="text" id="nom" name="nom" required>

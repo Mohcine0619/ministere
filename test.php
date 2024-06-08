@@ -71,3 +71,17 @@
             border-color: #c3e6cb; /* Green border color for success */
         }
     </style>
+
+
+<button class="back-button" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+.back-button {
+  background-color: transparent;
+  color: #6c757d;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+  font-size: 20px;
+  margin-bottom: 20px;
+}

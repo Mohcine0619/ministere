@@ -35,7 +35,6 @@ if ($result) {
     $result->free();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,12 +89,25 @@ if ($result) {
             display: flex;
             gap: 10px;
         }
+
+        .back-button {
+            background-color: transparent;
+            color: #6c757d;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.2s;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 <?php include '../pages/side.php'; ?>
 <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
+<button class="back-button" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
     <h2>Liste des Poles</h2>
     <table>
         <thead>
@@ -182,7 +194,7 @@ if ($result) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modifyModalLabel">Modify Entry</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close"on type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

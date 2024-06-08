@@ -6,8 +6,8 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  font-family: 'Roboto', sans-serif; /* Use a modern font */
+  background-color: #f0f2f5;
   color: #333;
   line-height: 1.6;
   padding: 20px;
@@ -17,120 +17,136 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-
-  background-color: #333;
-  padding: 10px 0;
+  background-color: #1a1a1a;
+  padding: 15px 0;
   margin: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .container {
   width: 80%;
   margin: 0 auto;
   background: #fff;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 80px; /* Adjust this value based on the height of your navbar */
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin-top: 100px; /* Adjust this value based on the height of your navbar */
+  border-radius: 8px;
 }
 
 .profile-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
-.profile-info .corps {
-  width: 100%; /* Ensure the corps field takes the full width of its container */
-  max-width: 100%; /* Ensure the corps field does not exceed the container width */
-  word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
-  white-space: normal; /* Allow text to wrap normally */
-  overflow: hidden; /* Hide any overflowing text */
-  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  padding: 8px; /* Add padding to ensure text does not touch the edges */
-}
+
 .profile-container {
-  display: flex;
-  align-items: flex-start;
-  max-width: 100%; /* Ensure the profile-container does not exceed the available width */
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  max-width: 100%;
 }
 
 .profile-photo-container {
-  margin-right: 50px;
   text-align: center;
 }
 
 .profile-photo {
-  width: 100px; /* or any other size */
-  height: 100px; /* must be the same as width for a perfect circle */
-  border-radius: 50%; /* this creates the circle */
-  object-fit: cover; /* this keeps the aspect ratio of the image */
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .change-photo {
   display: block;
-  margin: 10px auto;
+  margin: 15px auto;
+  color: #00bcd4;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.change-photo:hover {
+  color: #007bff;
+  text-decoration: underline; /* Ensure text remains visible */
 }
 
 .profile-info {
-  width: 100%; /* Ensure the profile-info container takes full width */
-  text-align: left; 
-  overflow: hidden; /* Ensure any overflow is hidden */
+  width: 100%;
+  text-align: left;
+  overflow: hidden;
+}
+
+.profile-info .corps {
+  width: 100%;
+  max-width: 100%;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  padding: 8px;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-weight: bold;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  transition: border-color 0.3s;
 }
 
-.form-group textarea[name="corps"] {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  height: auto; /* Remove fixed height */
-  line-height: 1.6; /* Match the line-height of the body */
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #00bcd4;
 }
 
 .form-actions {
   text-align: right;
-  width: 100%; 
+  width: 100%;
 }
 
 .btn {
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .btn-primary {
-  background-color: #00bcd4; /* Changed from #007bff to cyan */
-  color: #333; /* Changed text color for better visibility */
+  background-color: #00bcd4;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #333; /* Change to dark grey */
 }
 
 .btn-secondary {
-  background-color: #00bcd4; /* Changed from #6c757d to cyan */
-  color: #333; /* Changed text color for better visibility */
+  background-color: #6c757d;
+  color: #fff;
   margin-left: 10px;
-  
 }
 
-
+.btn-secondary:hover {
+  background-color: #333; /* Change to dark grey */
+}
 
 .profile-info p {
-  word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
-  white-space: normal; /* Allow text to wrap normally */
-  overflow: hidden; /* Hide any overflowing text */
-  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

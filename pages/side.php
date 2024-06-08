@@ -3,6 +3,9 @@
         .navbar-nav .nav-link:hover {
             color: #0097a7 !important;
         }
+        .navbar-nav .nav-link {
+            color: #fff;
+        }
     </style>
     <div class="container-fluid w-100">
         <a class="navbar-brand" href="#">
@@ -14,7 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../pages/home.php">Home</a>
+                    <a class="nav-link active" style="color: #fff;" aria-current="page" href="../pages/home.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../pages/about.php">About</a>
