@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2024 at 06:06 PM
+-- Generation Time: Jun 08, 2024 at 02:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,8 +32,16 @@ CREATE TABLE `conges` (
   `id_employe` int(11) NOT NULL,
   `date_debut` date NOT NULL,
   `date_fin` date NOT NULL,
-  `statut` varchar(255) DEFAULT 'en attente'
+  `statut` varchar(255) DEFAULT 'en attente',
+  `motif` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `conges`
+--
+
+INSERT INTO `conges` (`id`, `id_employe`, `date_debut`, `date_fin`, `statut`, `motif`) VALUES
+(8, 61, '2024-10-10', '2024-10-12', 'approve', 'jid');
 
 -- --------------------------------------------------------
 
@@ -44,15 +52,16 @@ CREATE TABLE `conges` (
 CREATE TABLE `departements` (
   `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
-  `nom_directeur` varchar(255) NOT NULL
+  `nom_directeur` varchar(255) NOT NULL,
+  `nom_pole` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `departements`
 --
 
-INSERT INTO `departements` (`id`, `nom`, `nom_directeur`) VALUES
-(1, 'finance', 'mohcine');
+INSERT INTO `departements` (`id`, `nom`, `nom_directeur`, `nom_pole`) VALUES
+(14, 'departement1', 'saad akkad', 'finance');
 
 -- --------------------------------------------------------
 
@@ -64,17 +73,17 @@ CREATE TABLE `employes` (
   `id` int(11) NOT NULL,
   `fullName` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `id_pole` int(11) NOT NULL,
+  `id_pole` int(11) DEFAULT NULL,
   `id_departement` int(11) DEFAULT NULL,
   `id_service` int(11) DEFAULT NULL,
   `role` enum('rh','directeur','chef de service','employe') NOT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
-  `dob` varchar(50) NOT NULL,
+  `nb_post` int(11) NOT NULL,
   `occupation` varchar(255) NOT NULL,
-  `age` int(11) NOT NULL,
-  `education` varchar(255) NOT NULL,
+  `nb_bureau` int(11) NOT NULL,
+  `corps` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -82,19 +91,16 @@ CREATE TABLE `employes` (
 -- Dumping data for table `employes`
 --
 
-INSERT INTO `employes` (`id`, `fullName`, `email`, `id_pole`, `id_departement`, `id_service`, `role`, `photo`, `password`, `username`, `dob`, `occupation`, `age`, `education`, `createdAt`) VALUES
-(24, 'zk eijfzo', 'akkad@gmail.com', 0, 1, 1, 'chef de service', '../uploads/entreprise', '$2y$10$c1mJh2.CdQzvUFlXGKYf..TZ0dPCNw/soioOqbf1p48XVwoPSGKYC', 'wak07', '', '', 0, '', '2024-06-04 13:15:27'),
-(26, 'oijuygvuhioj', 'alokaokl@gmail.com', 0, 1, 1, 'rh', NULL, '$2y$10$9sr2DdmaAClEpvMU0ouHge4/zBInfKwGb1xbr2EG6urJT9gdCzmtS', 'kpojihjn', '', '', 0, '', '2024-06-04 13:15:27'),
-(28, 'oijuygvuhioj', 'aloaokl@gmail.com', 0, 1, 1, 'rh', NULL, '$2y$10$4seTATOFpmOTvKUq02yEd.IpmevjOJ5AxV5IlR2DUG6Ns782kU1eC', 'ki', '', '', 0, '', '2024-06-04 13:15:27'),
-(29, 'oijuygvuhioj', 'alookl@gmail.com', 0, 1, 1, 'rh', NULL, '$2y$10$g8.jeMsvXPzFqu/qVVRiZu3XpMC1c9jLW/J639AsA.QudHrSLAaU6', 'ki7', '', '', 0, '', '2024-06-04 13:15:27'),
-(30, 'oijuygvuhioj', 'alokl@gmail.com', 0, 1, 1, 'rh', NULL, '$2y$10$Rkpry.eFnkc8Mt7tB3w8Sezq4NeIgcmOGbkBdnuxeVIOBv.Sxynfq', 'ki8', '', '', 0, '', '2024-06-04 13:15:27'),
-(31, 'oijuygvuhioj', 'alkl@gmail.com', 0, 1, 1, 'rh', NULL, '$2y$10$igT5coyWUAupG3f7H58a.egIn8ixh37ceMyZBF1WDRm2na1M9XWYe', 'ki9', '', '', 0, '', '2024-06-04 13:15:27'),
-(32, 'saadaa', 'a@gmail.com', 0, 1, 1, 'rh', '../uploads/entreprise', '$2y$10$MTMnmZZuWiHp.xFXX0JdgeKYNupjYlHsJHG/lHX/K28FMDOzuPMNG', 'saad00', '', '', 0, '', '2024-06-04 13:15:27'),
-(33, 'ctfgyvh', 'aa@gmail.com', 0, 1, 1, 'rh', '../uploads/entreprise', '$2y$10$JTNYMi7Le7nuLEFQBchU8.8ur0wdwJFmPjmC71dXqBWGAAtsWv5WO', 'q14', '', '', 0, '', '2024-06-04 13:15:27'),
-(34, 'hhya', 'hanae@gmail.com', 0, 1, 1, 'directeur', '../uploads/entreprise.jpg', '$2y$10$By.A0a499AFOrIPlUHiEmOiVe4SFTq5YjAnaExCptjXYeAZpltF9S', 'hanae887', '', '', 0, '', '2024-06-04 13:15:27'),
-(35, 'chaibia', 'chaibia@gmail.com', 0, 1, 1, 'chef de service', '../uploads/entreprise.jpg', '$2y$10$wqYi5bonSAQmuOSimvPqgu.4EqScDAw7rlv2bKgHBopCmbES7c4lK', 'mama', '1993-01-29', 'chef de nuit', 50, 'bac+7', '2024-06-04 13:16:49'),
-(36, 'akkad mohcine', 'akkadmohcine07@gmail.com', 0, 1, 1, 'directeur', '../uploads/WhatsApp_Image_2024-06-04_at_23_07_38.jpeg', '$2y$10$kAjWpxvkcumtjhwLwXoZiOekedw2JyQQdfn2RNkaNDgEPGo.XChuy', 'Mohcine07', '2004-03-25', 'directeur finance', 20, 'bac+2', '2024-06-04 22:09:45'),
-(37, 'azdc', 'ad@gmail.com', 0, 1, 1, 'employe', '../uploads/king.jpg', '$2y$10$a9JwsUr9tGBZuDDRTx6Ox.HAuxFUWDnkrXDb7siCiQJX5NilQmdnG', 'pop1', '2015-10-28', 'chef de nuit', 50, 'bac+8', '2024-06-05 15:39:16');
+INSERT INTO `employes` (`id`, `fullName`, `email`, `id_pole`, `id_departement`, `id_service`, `role`, `photo`, `password`, `username`, `nb_post`, `occupation`, `nb_bureau`, `corps`, `createdAt`) VALUES
+(61, 'akkad mohcine', 'akkad@gmail.com', 15, 14, 5, 'rh', '../uploads/entreprise.jpg', '$2y$10$kKe9g/PVM/zXovjWv9BuseZ3CONTys0kOse6Mmh.uI.iE8Mv/1tDa', 'mohcine1', 1, '0', 1, 'Corps is a term used for several different kinds of organization. A military innovation by Napoleon I, the formation was first named as such in 1805.', '2024-06-07 12:38:24'),
+(62, 'saad akkad', 'aa@gmail.com', 15, 14, 5, 'directeur', NULL, '$2y$10$3xXBSLwqQ5F71DKuE1OrE.Oi/WByw0m3WE8IXZ79rnLMoRUECGGhq', 'saad01', 4, '0', 7, 'Fatal error: Uncaught mysqli_sql_exception: Column &amp;#039;id_pole&amp;#039; cannot be null in D:\\xampp\\htdocs\\ministere\\pages\\signup.php:61 Stack trace: #0 D:\\xampp\\htdocs\\ministere\\pages\\signup.php(61): mysqli_stmt-&amp;gt;execute() #1 {main} thrown i', '2024-06-07 12:40:15'),
+(63, 'chef said', 'aaa@gmail.com', 15, 14, 5, 'chef de service', '../uploads/entreprise.jpg', '$2y$10$XPAcB3QnF7m3fDC2CerhJeKwcOB2Pv..tAw/NIMxNudOdXDwYZ0wC', 'chef1', 45, '0', 78, '0', '2024-06-07 12:59:44'),
+(64, 'employe', 'lo@gmail.com', 15, 14, 5, 'employe', '../uploads/image_2024-06-07_140203986.png', '$2y$10$wC9Olp/ltI4hzkSXY/1DAOLEEXpvD.rZVvfuLBofd0xKO1nQBPNJS', 'emp1', 1452, '0', 7, 'jiufhyhuirg', '2024-06-07 13:02:37'),
+(65, 'rh', 'rh@gmail.com', 15, 14, 5, 'rh', '../uploads/entreprise.jpg', '$2y$10$ei1EKh4G3onjxgGu6/I0Ze/l.RaDIBIpz.7kvd0Hosx/JiQA/wLZ.', 'rh', 47, 'rh', 78, 'rhhh', '2024-06-07 13:04:52'),
+(66, 'simple', 'x@gmail.com', 15, 14, 5, 'employe', '../uploads/king.jpg', '$2y$10$xBRbzf49iCiRXJls5Vft6.0nU2u3Fqaq2utIAKchFPyn480YYYgDq', 's1x', 478, 'ihugyt', 6, 'uigyugzgyeygzyzeygzygeuygz', '2024-06-07 13:08:10'),
+(67, 'huhu', 'aaaa@gmail.com', 15, 14, 5, 'rh', '../uploads/entreprise.jpg', '$2y$10$qdxADZQQaK2gSRozG8F59eoXq3zCOjFIcSQUP9KktFty.HBlys5kC', 'h1', 4, 'hello', 7, 'ojioyuiui', '2024-06-07 20:40:28'),
+(68, 'hanae laassel', 'la@gmail.com', 15, 14, 5, 'employe', '../uploads/Black_Oranye_Archetype_Inspired_Logo__1_.png', '$2y$10$ocRXYgdgzDOvwhWquldYa.OTkXZCMgLwQ4p7hFBmxli9Gxw5oC2fO', 'la1', 6, 'hterv', 8, 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', '2024-06-08 11:18:19'),
+(69, 'mama', 'm@gmail.com', 16, 14, NULL, 'directeur', '../uploads/king.jpg', '$2y$10$opPRYXyfPZaPtDJ/15HpIeUqjTi0v6dbns1iPQXiw1KhxjrN5vKuK', 'm1', 58, 'gtutyty', 4, 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr', '2024-06-08 11:19:49');
 
 -- --------------------------------------------------------
 
@@ -105,7 +111,7 @@ INSERT INTO `employes` (`id`, `fullName`, `email`, `id_pole`, `id_departement`, 
 CREATE TABLE `poles` (
   `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
-  `nom_directeur` varchar(255) NOT NULL
+  `nom_directeur` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -113,7 +119,8 @@ CREATE TABLE `poles` (
 --
 
 INSERT INTO `poles` (`id`, `nom`, `nom_directeur`) VALUES
-(1, 'huh', 'mohcine');
+(15, 'finance', 'saad akkad'),
+(16, 'finance', 'saad akkad');
 
 -- --------------------------------------------------------
 
@@ -125,15 +132,16 @@ CREATE TABLE `services` (
   `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `nom_chef` varchar(255) DEFAULT NULL,
-  `id_departement` int(11) DEFAULT NULL
+  `id_departement` int(11) DEFAULT NULL,
+  `nom_departement` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`id`, `nom`, `nom_chef`, `id_departement`) VALUES
-(1, 'flos', 'akkad', 1);
+INSERT INTO `services` (`id`, `nom`, `nom_chef`, `id_departement`, `nom_departement`) VALUES
+(5, 'service1', 'chef said', 14, 0);
 
 --
 -- Indexes for dumped tables
@@ -151,7 +159,8 @@ ALTER TABLE `conges`
 --
 ALTER TABLE `departements`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `nom_directeur` (`nom_directeur`);
+  ADD KEY `nom_directeur` (`nom_directeur`),
+  ADD KEY `nom_pole` (`nom_pole`);
 
 --
 -- Indexes for table `employes`
@@ -159,9 +168,9 @@ ALTER TABLE `departements`
 ALTER TABLE `employes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `id_departement` (`id_departement`),
   ADD KEY `id_service` (`id_service`) USING BTREE,
-  ADD KEY `id_pole` (`id_pole`);
+  ADD KEY `id_pole` (`id_pole`),
+  ADD KEY `employes_ibfk_1` (`id_departement`);
 
 --
 -- Indexes for table `poles`
@@ -175,7 +184,8 @@ ALTER TABLE `poles`
 --
 ALTER TABLE `services`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_departement` (`id_departement`);
+  ADD KEY `id_departement` (`id_departement`),
+  ADD KEY `nom_departement` (`nom_departement`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -185,31 +195,31 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `conges`
 --
 ALTER TABLE `conges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `departements`
 --
 ALTER TABLE `departements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `employes`
 --
 ALTER TABLE `employes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `poles`
 --
 ALTER TABLE `poles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -225,14 +235,14 @@ ALTER TABLE `conges`
 -- Constraints for table `employes`
 --
 ALTER TABLE `employes`
-  ADD CONSTRAINT `employes_ibfk_1` FOREIGN KEY (`id_departement`) REFERENCES `departements` (`id`),
+  ADD CONSTRAINT `employes_ibfk_1` FOREIGN KEY (`id_departement`) REFERENCES `departements` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `employes_ibfk_2` FOREIGN KEY (`id_service`) REFERENCES `services` (`id`);
 
 --
 -- Constraints for table `poles`
 --
 ALTER TABLE `poles`
-  ADD CONSTRAINT `poles_ibfk_1` FOREIGN KEY (`nom_directeur`) REFERENCES `departements` (`nom_directeur`);
+  ADD CONSTRAINT `poles_ibfk_1` FOREIGN KEY (`nom_directeur`) REFERENCES `departements` (`nom_directeur`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `services`
