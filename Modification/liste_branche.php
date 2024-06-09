@@ -34,7 +34,27 @@ if ($result) {
     }
     $result->free();
 }
+
+// Fetch directors from the departments table
+$directors = [];
+$result = $conn->query("SELECT DISTINCT fullName FROM employes WHERE role = 'Directeur'");
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $directors[] = $row;
+    }
+    $result->free();
+}
+// Fetch chefs de service from the roles table
+$chefs = [];
+$result = $conn->query("SELECT DISTINCT fullName FROM employes WHERE role = 'chef de service'");
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $chefs[] = $row;
+    }
+    $result->free();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,25 +109,13 @@ if ($result) {
             display: flex;
             gap: 10px;
         }
-
-        .back-button {
-            background-color: transparent;
-            color: #6c757d;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: color 0.3s, transform 0.2s;
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
 <?php include '../pages/side.php'; ?>
 <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
-<button class="back-button" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+    <div id="message" class="alert" style="display: none;"></div>
     <h2>Liste des Poles</h2>
     <table>
         <thead>
@@ -159,33 +167,32 @@ if ($result) {
             <?php endforeach; ?>
         </tbody>
     </table>
-
-    <h2>Liste des Services</h2>
-    <table>
-        <thead>
+<h2>Liste des Services</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Nom Chef</th>
+            <th>Nom Département</th> <!-- Corrected this line -->
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($services as $service): ?>
             <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Nom Chef</th>
-                <th>Nom Département</th>
-                <th>Actions</th>
+                <td><?php echo htmlspecialchars($service['id']); ?></td>
+                <td><?php echo htmlspecialchars($service['nom']); ?></td>
+                <td><?php echo htmlspecialchars($service['nom_chef']); ?></td>
+                <td><?php echo htmlspecialchars($service['nom_departement']); ?></td> <!-- Corrected this line -->
+                <td class="action-buttons">
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $service['id']; ?>" data-type="service">Modify</button>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $service['id']; ?>" data-type="service">Delete</button>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($services as $service): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($service['id']); ?></td>
-                    <td><?php echo htmlspecialchars($service['nom']); ?></td>
-                    <td><?php echo htmlspecialchars($service['nom_chef']); ?></td>
-                    <td><?php echo htmlspecialchars($service['nom_departement']); ?></td>
-                    <td class="action-buttons">
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $service['id']; ?>" data-type="service">Modify</button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $service['id']; ?>" data-type="service">Delete</button>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 </div>
 
 <!-- Modify Modal -->
@@ -194,7 +201,7 @@ if ($result) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modifyModalLabel">Modify Entry</h5>
-                <button type="button" class="close"on type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -208,7 +215,11 @@ if ($result) {
                     </div>
                     <div class="form-group">
                         <label for="modify-nom-directeur">Nom Directeur:</label>
-                        <input type="text" class="form-control" id="modify-nom-directeur" name="nom_directeur">
+                        <select class="form-control" id="modify-nom-directeur" name="nom_directeur">
+                            <?php foreach ($directors as $director): ?>
+                                <option value="<?php echo htmlspecialchars($director['fullName']); ?>"><?php echo htmlspecialchars($director['fullName']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="form-group" id="modify-nom-pole-group">
                         <label for="modify-nom-pole">Nom Pole:</label>
@@ -223,6 +234,14 @@ if ($result) {
                         <select class="form-control" id="modify-id-departement" name="id_departement">
                             <?php foreach ($departments as $department): ?>
                                 <option value="<?php echo $department['id']; ?>"><?php echo htmlspecialchars($department['nom']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group" id="modify-nom-chef-group">
+                        <label for="modify-nom-chef">Nom Chef:</label>
+                        <select class="form-control" id="modify-nom-chef" name="nom_chef">
+                            <?php foreach ($chefs as $chef): ?>
+                                <option value="<?php echo htmlspecialchars($chef['nom']); ?>"><?php echo htmlspecialchars($chef['nom']); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -262,12 +281,49 @@ if ($result) {
 <?php include '../pages/footer.php'; ?>
 
 <script>
+    function showMessage(type, message) {
+        var messageDiv = $('#message');
+        messageDiv.removeClass('alert-success alert-danger').addClass('alert-' + type).text(message).show();
+    }
+
+    $('#modifyForm').on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: function(response) {
+                showMessage('success', 'Entry modified successfully.');
+                $('#modifyModal').modal('hide');
+                location.reload(); // Reload the page to reflect changes
+            },
+            error: function() {
+                showMessage('danger', 'An error occurred while modifying the entry.');
+            }
+        });
+    });
+
+    $('#deleteForm').on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: function(response) {
+                showMessage('success', 'Entry deleted successfully.');
+                $('#deleteModal').modal('hide');
+                location.reload(); // Reload the page to reflect changes
+            },
+            error: function() {
+                showMessage('danger', 'An error occurred while deleting the entry.');
+            }
+                    });
+        });
+
     $('#modifyModal').on('show.bs.modal', function (event) {
-        console.log('Modify modal triggered');
         var button = $(event.relatedTarget);
         var id = button.data('id');
         var type = button.data('type');
-        console.log('ID:', id, 'Type:', type);
         var modal = $(this);
         modal.find('#modify-id').val(id);
         modal.find('#modify-type').val(type);
@@ -278,18 +334,16 @@ if ($result) {
             method: 'GET',
             data: { id: id, type: type },
             success: function (data) {
-                console.log('Data fetched:', data);
                 var entry = JSON.parse(data);
                 modal.find('#modify-nom').val(entry.nom);
                 
                 if (type === 'service') {
-                    modal.find('label[for="modify-nom-directeur"]').text('Nom Chef:');
-                    modal.find('#modify-nom-directeur').val(entry.nom_chef);
+                    modal.find('#modify-nom-chef-group').show();
+                    modal.find('#modify-nom-chef').val(entry.nom_chef);
                     modal.find('#modify-id-departement-group').show();
                     modal.find('#modify-id-departement').val(entry.id_departement);
                 } else {
-                    modal.find('label[for="modify-nom-directeur"]').text('Nom Directeur:');
-                    modal.find('#modify-nom-directeur').val(entry.nom_directeur);
+                    modal.find('#modify-nom-chef-group').hide();
                     modal.find('#modify-id-departement-group').hide();
                 }
 
@@ -304,11 +358,9 @@ if ($result) {
     });
 
     $('#deleteModal').on('show.bs.modal', function (event) {
-        console.log('Delete modal triggered');
         var button = $(event.relatedTarget);
         var id = button.data('id');
         var type = button.data('type');
-        console.log('ID:', id, 'Type:', type);
         var modal = $(this);
         modal.find('#delete-id').val(id);
         modal.find('#delete-type').val(type);

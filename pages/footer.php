@@ -36,9 +36,9 @@
     <div class="container">
         <p>&copy; <?php echo date("Y"); ?> Your Company. All rights reserved.</p>
         <ul>
-            <li><a href="/privacy-policy">Privacy Policy</a></li>
-            <li><a href="/terms-of-service">Terms of Service</a></li>
-            <li><a href="/contact">Contact Us</a></li>
+            <li><a href="../contact/privacy.php">Privacy Policy</a></li>
+            <li><a href="../contact/terms.php">Terms of Service</a></li>
+            <li><a href="../contact/contact.php">Contact Us</a></li>
         </ul>
     </div>
 </footer>
