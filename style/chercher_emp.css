@@ -155,7 +155,7 @@ button[type="submit"] {
   background-color: #00bcd4; /* Cyan color */
   color: white;
   border: 2px solid #00bcd4; /* Cyan border */
-  padding: 10px 30px; /* Wider button */
+  padding: 10px 20px; /* Wider button */
   border-radius: 0; /* Square corners */
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;

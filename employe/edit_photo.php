@@ -48,16 +48,16 @@ $conn->close();
 <?php include '../pages/side.php'; ?>
     <?php include '../pages/navbar.php'; ?>
     <div class="container main-container">
-        <h1>Change Profile Photo</h1>
+        <h1>Changer photo de profil</h1>
         <p><?php echo $message; ?></p>
         <form action="edit_photo.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="photo">Profile Photo:</label>
+                <label for="photo">Photo de profil :</label>
                 <input type="file" name="photo" required>
             </div>
             <div class="form-actions">
-            <a href="profile.php" class="btn btn-secondary">Cancel</a>
-                <button type="submit" class="btn btn-primary">Upload Photo</button>
+                <a href="profile.php" class="btn btn-secondary">Annuler</a>
+                <button type="submit" class="btn btn-primary">Télécharger la Photo</button>
             </div>
         </form>
     </div>

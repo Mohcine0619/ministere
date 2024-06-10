@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Pole</title>
+    <title>Ajouter un Pole</title>
     <?php include '../pages/boot.php'; ?>
     <?php include '../pages/nav.php'; ?>
     <style>
@@ -141,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include '../pages/side.php'; ?>
 <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
-    <h2>Add Pole</h2>
+    <h2>Ajouter un Pole</h2>
     <?php if (isset($_SESSION['message'])): ?>
         <div class="alert <?php echo $_SESSION['message_type'] == 'success' ? 'alert-success' : ''; ?>">
             <?php echo $_SESSION['message']; unset($_SESSION['message'], $_SESSION['message_type']); ?>
@@ -155,16 +155,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div>
             <label for="nom_responsable">Nom Responsable:</label>
             <select id="nom_responsable" name="nom_responsable">
-                <option value="">Select Nom Responsable</option>
-                <option value="None">None</option> <!-- Added None option -->
+                <option value="">Sélectionner le nom du directeur</option>
+                <option value="None">aucun</option> <!-- Added None option -->
                 <?php foreach ($nom_directeurs as $nom_directeur): ?>
                     <option value="<?php echo htmlspecialchars($nom_directeur); ?>"><?php echo htmlspecialchars($nom_directeur); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div style="display: flex; justify-content: space-between;">
-            <button type="button" style="width: 48%; background-color: dimgray; color: white;" onclick="window.location.href='../pages/home.php'">Cancel</button>
-            <button type="submit" style="width: 48%;">Add Pole</button>
+            <button type="button" style="width: 48%; background-color: dimgray; color: white;" onclick="window.location.href='../pages/home.php'">Annuler</button>
+            <button type="submit" style="width: 48%;">Ajouter le Pole</button>
         </div>
     </form>
 </div>

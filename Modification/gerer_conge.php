@@ -62,7 +62,7 @@ $result = $conn->query($query);
     transition: color 0.3s, transform 0.2s;
     font-size: 20px;
     margin-bottom: 20px;
-    transform: translateX(-440px); /* Shift content to the left */
+    transform: translateX(-390px); /* Shift content to the left */
 
 }
 </style>
@@ -71,19 +71,19 @@ $result = $conn->query($query);
 <?php include '../pages/side.php'; ?>
     <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
-<button class="back-button" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
-    <h2>Manage Leave Requests</h2>
+    <button class="back-button" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+    <h2>Gérer les demandes de congé</h2>
     <?php if ($result && $result->num_rows > 0): ?>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Employee Name</th>
-                    <th>Role</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Reason</th>
-                    <th>Number of Posts</th>
-                    <th>Number of Offices</th>
+                    <th>Nom de l'employé</th>
+                    <th>Rôle</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Motif</th>
+                    <th>Nb de postes</th>
+                    <th>Nb de bureaux</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -109,7 +109,7 @@ $result = $conn->query($query);
             </tbody>
         </table>
     <?php else: ?>
-        <div class="alert alert-info" role="alert">No pending leave requests.</div>
+        <div class="alert alert-info" role="alert">Aucune demande de congé en attente.</div>
     <?php endif; ?>
 </div>
 <?php include '../pages/footer.php'; ?>

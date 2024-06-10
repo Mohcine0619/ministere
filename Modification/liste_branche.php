@@ -133,8 +133,8 @@ if ($result) {
                     <td><?php echo htmlspecialchars($pole['nom']); ?></td>
                     <td><?php echo htmlspecialchars($pole['nom_directeur']); ?></td>
                     <td class="action-buttons">
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $pole['id']; ?>" data-type="pole">Modify</button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $pole['id']; ?>" data-type="pole">Delete</button>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $pole['id']; ?>" data-type="pole">Modifier</button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $pole['id']; ?>" data-type="pole">Supprimer</button>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -160,8 +160,8 @@ if ($result) {
                     <td><?php echo htmlspecialchars($department['nom_directeur']); ?></td>
                     <td><?php echo htmlspecialchars($department['nom_pole']); ?></td>
                     <td class="action-buttons">
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $department['id']; ?>" data-type="department">Modify</button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $department['id']; ?>" data-type="department">Delete</button>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $department['id']; ?>" data-type="department">Modifier</button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $department['id']; ?>" data-type="department">Supprimer</button>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -186,8 +186,8 @@ if ($result) {
                 <td><?php echo htmlspecialchars($service['nom_chef']); ?></td>
                 <td><?php echo htmlspecialchars($service['nom_departement']); ?></td> <!-- Corrected this line -->
                 <td class="action-buttons">
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $service['id']; ?>" data-type="service">Modify</button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $service['id']; ?>" data-type="service">Delete</button>
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $service['id']; ?>" data-type="service">Modifier</button>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $service['id']; ?>" data-type="service">Supprimer</button>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -200,7 +200,7 @@ if ($result) {
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modifyModalLabel">Modify Entry</h5>
+                <h5 class="modal-title" id="modifyModalLabel">Modifier l'entrée</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -238,14 +238,14 @@ if ($result) {
                         </select>
                     </div>
                     <div class="form-group" id="modify-nom-chef-group">
-                        <label for="modify-nom-chef">Nom Chef:</label>
-                        <select class="form-control" id="modify-nom-chef" name="nom_chef">
-                            <?php foreach ($chefs as $chef): ?>
-                                <option value="<?php echo htmlspecialchars($chef['nom']); ?>"><?php echo htmlspecialchars($chef['nom']); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+    <label for="modify-nom-chef">Nom Chef:</label>
+    <select class="form-control" id="modify-nom-chef" name="nom_chef">
+        <?php foreach ($chefs as $chef): ?>
+            <option value="<?php echo htmlspecialchars($chef['fullName']); ?>"><?php echo htmlspecialchars($chef['fullName']); ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
+                    <button type="submit" class="btn btn-primary">Sauvegarder les modifications</button>
                 </form>
             </div>
         </div>
@@ -257,20 +257,20 @@ if ($result) {
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this entry?
+                Êtes-vous sr de vouloir supprimer cette entrée?
             </div>
             <div class="modal-footer">
                 <form id="deleteForm" method="POST" action="deleteEntry.php">
                     <input type="hidden" id="delete-id" name="id">
                     <input type="hidden" id="delete-type" name="type">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
                 </form>
             </div>
         </div>

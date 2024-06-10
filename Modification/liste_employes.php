@@ -27,7 +27,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Employees</title>
+    <title>Rechercher des Employés</title>
     <?php include '../pages/boot.php'; ?>
     <link rel="stylesheet" href="../style/chercher_emp.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -74,35 +74,35 @@ $result = $stmt->get_result();
     <div class="container main-content">
         <img src="../uploads/entreprise.jpg" alt="Entreprise Photo" class="entreprise-photo">
         <button class="back-button" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
-        <h1>Search Employees</h1>
+        <h1>Rechercher des Employés</h1>
         <form action="liste_employes.php" method="get">
-            <input type="text" name="search" placeholder="Search by..." value="<?php echo htmlspecialchars($search); ?>">
-            <button type="submit">Search</button>
+            <input type="text" name="search" placeholder="Rechercher par..." value="<?php echo htmlspecialchars($search); ?>">
+            <button type="submit">Rechercher</button>
         </form>
-        <a href="add_employee.php" class="add-button">Ajouter Employee</a>
+        <a href="add_employee.php" class="add-button">Ajouter un Employé</a>
 
         <?php if ($result->num_rows > 0): ?>
             <ul>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <li class="employee-info">
                         <img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Employee Photo" class="employee-photo">
-                        <div><strong>Full Name:</strong> <?php echo htmlspecialchars($row['fullName']); ?></div>
-                        <div><strong>Search Term:</strong> <?php echo htmlspecialchars($search); ?></div>
-                        <button class="expand-button" onclick="expandDetails(this)">Details</button>
+                        <div><strong>Nom complet:</strong> <?php echo htmlspecialchars($row['fullName']); ?></div>
+                        <div><strong>Term de recherche:</strong> <?php echo htmlspecialchars($search); ?></div>
+                        <button class="expand-button" onclick="expandDetails(this)">Détails</button>
                         <div class="details" style="display:none;">
-                            <div><strong>Department:</strong> <?php echo htmlspecialchars($row['departement']); ?></div>
+                            <div><strong>Division:</strong> <?php echo htmlspecialchars($row['departement']); ?></div>
                             <div><strong>Service:</strong> <?php echo htmlspecialchars($row['service']); ?></div>
                             <div><strong>Pole:</strong> <?php echo htmlspecialchars($row['pole']); ?></div>
-                            <div><strong>Role:</strong> <?php echo htmlspecialchars($row['role']); ?></div>
+                            <div><strong>Rôle:</strong> <?php echo htmlspecialchars($row['role']); ?></div>
                             <div><strong>Occupation:</strong> <?php echo htmlspecialchars($row['occupation']); ?></div>
                             <div><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></div>
                             <div><strong>Username:</strong> <?php echo htmlspecialchars($row['username']); ?></div>
                             <div><strong>Nombre de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>
                             <div><strong>Nombre de bureau:</strong> <?php echo htmlspecialchars($row['nb_bureau']); ?></div>
                             <div><strong>Corps:</strong> <?php echo htmlspecialchars($row['corps']); ?></div>
-                            <button class="shorten-button" onclick="shortenDetails(this)" style="display:none;">Shorten</button>
-                            <button class="modify-button" onclick="showModifyModal(<?php echo $row['id']; ?>)">Modify</button>
-                            <button class="delete-button" onclick="showDeleteModal(<?php echo $row['id']; ?>)">Delete</button>
+                            <button class="shorten-button" onclick="shortenDetails(this)" style="display:none;">Réduire</button>
+                            <button class="modify-button" onclick="showModifyModal(<?php echo $row['id']; ?>)">Modifier</button>
+                            <button class="delete-button" onclick="showDeleteModal(<?php echo $row['id']; ?>)">Supprimer</button>
                         </div>
                     </li>
                 <?php endwhile; ?>
@@ -123,15 +123,15 @@ $result = $stmt->get_result();
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modifyModalLabel">Modify Employee</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="modifyModalLabel">Modifier l'employé</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                 </div>
                 <div class="modal-body">
-                    Do you want to change employee info?
+                    Voulez-vous modifier les informations de l'employé?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="confirmModifyButton">Modify</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="confirmModifyButton">Modifier</button>
                 </div>
             </div>
         </div>
@@ -142,15 +142,15 @@ $result = $stmt->get_result();
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Employee</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="deleteModalLabel">Supprimer un Employé</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this employee?
+                    Êtes-vous sr de vouloir supprimer cet employé?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Supprimer</button>
                 </div>
             </div>
         </div>

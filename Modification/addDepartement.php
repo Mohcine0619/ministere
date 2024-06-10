@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include '../pages/side.php'; ?>
 <?php include '../pages/navbar.php'; ?>
 <div class="container main-content">
-    <h2>Add Department</h2>
+    <h2>Ajouter une Division</h2>
     <?php if (isset($_SESSION['message'])): ?>
         <div class="alert <?php echo $_SESSION['message_type'] == 'success' ? 'alert-success' : ''; ?>">
             <?php echo $_SESSION['message']; unset($_SESSION['message'], $_SESSION['message_type']); ?>
@@ -157,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div>
             <label for="nom_directeur">Nom Directeur:</label>
             <select id="nom_directeur" name="nom_directeur">
-                <option value="">Select a director</option>
+                <option value="">Sélectionner un directeur</option>
                 <?php foreach ($directeurs as $directeur): ?>
                     <option value="<?php echo htmlspecialchars($directeur['fullName']); ?>">
                         <?php echo htmlspecialchars($directeur['fullName']); ?>
@@ -177,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div style="display: flex; justify-content: space-between;">
             <button type="button" style="width: 48%; background-color: dimgray; color: white;" onclick="window.location.href='../pages/home.php'">Cancel</button>
-            <button type="submit" style="width: 48%;">Add Department</button>
+            <button type="submit" style="width: 48%;">Ajouter la Division</button>
         </div>
     </form>
 </div>
