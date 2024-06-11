@@ -1,13 +1,11 @@
 <?php
 require_once'../backend/db.php';
 session_start();
-// Vérifiez si l'utilisateur est connecté
 if(!isset($_SESSION['user_id'])){
     header('Location:login.php');
     exit();
 }
-$search=$_GET['search']??''; // Obtenez le terme de recherche à partir du paramètre URL
-// Préparer et exécuter la requête de recherche
+$search=$_GET['search']??'';
 $sql="SELECT employes.*, departements.nom as division, services.nom as service, poles.nom as pole FROM employes 
         LEFT JOIN departements ON employes.id_departement=departements.id 
         LEFT JOIN services ON employes.id_service=services.id 

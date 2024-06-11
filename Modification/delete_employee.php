@@ -1,18 +1,26 @@
 <?php
-session_start(); // Start the session
+session_start();
 require_once '../backend/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
-    $employeeId = intval($_POST['id']); // Get the employee ID from the POST data
+    $employeeId = intval($_POST['id']);
 
-    // Prepare SQL statement to delete the employee from the database
+    // Prevent deletion if it's the logged-in user's own account
+    if ($employeeId == $_SESSION['user_id']) {
+        echo "Error: You cannot delete your own account.";
+        exit();
+    }
+
     $stmt = $conn->prepare("DELETE FROM employes WHERE id = ?");
     if ($stmt) {
         $stmt->bind_param("i", $employeeId);
-
-        // Execute the statement
         if ($stmt->execute()) {
-            echo "Employee deleted successfully!";
+            // Check if any rows were actually deleted
+            if ($stmt->affected_rows > 0) {
+                echo "Employee deleted successfully!";
+            } else {
+                echo "Error: No such employee found.";
+            }
         } else {
             echo "Error: " . $stmt->error;
         }

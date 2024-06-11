@@ -193,13 +193,18 @@ $result = $stmt->get_result();
             xhr.open('POST', 'delete_employee.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Handle success
-                    alert('Employee deleted successfully.');
-                    location.reload(); // Reload the page to reflect changes
-                } else if (xhr.readyState === 4) {
-                    // Handle error
-                    alert('Error deleting employee.');
+                if (xhr.readyState === 4) {
+                    var responseText = xhr.responseText.trim();
+                    if (xhr.status === 200) {
+                        if (responseText.startsWith("Error:")) {
+                            alert(responseText); // Display the error message from the server
+                        } else {
+                            alert(responseText); // Display success or other messages from the server
+                            location.reload(); // Reload the page to reflect changes
+                        }
+                    } else {
+                        alert('Error deleting employee: ' + xhr.status);
+                    }
                 }
             };
             xhr.send('id=' + id);
@@ -208,4 +213,3 @@ $result = $stmt->get_result();
     <?php include '../pages/footer.php'; ?>
 </body>
 </html>
-
