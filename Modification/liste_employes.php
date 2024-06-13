@@ -11,11 +11,11 @@ if (!isset($_SESSION['user_id'])) {
 $search = $_GET['search'] ?? ''; // Get the search term from the URL parameter
 
 // Prepare and execute search query
-$sql = "SELECT employes.*, departements.nom as departement, services.nom as service, poles.nom as pole FROM employes 
-        LEFT JOIN departements ON employes.id_departement = departements.id 
-        LEFT JOIN services ON employes.id_service = services.id 
-        LEFT JOIN poles ON employes.id_pole = poles.id 
-        WHERE employes.fullName LIKE ? OR departements.nom LIKE ? OR services.nom LIKE ? OR poles.nom LIKE ? OR employes.role LIKE ? OR employes.occupation LIKE ? OR employes.email LIKE ? OR employes.username LIKE ? OR employes.nb_post LIKE ? OR employes.nb_bureau LIKE ? OR employes.corps LIKE ?";
+$sql = "SELECT employe.*, COALESCE(departement.nom, 'No Department') as division, COALESCE(services.nom, 'No Service') as service, COALESCE(poles.nom, 'No Pole') as pole FROM employe 
+LEFT JOIN departement ON employe.departement_id = departement.id 
+LEFT JOIN services ON employe.service_id = services.id 
+LEFT JOIN poles ON employe.pole_id = poles.id 
+WHERE employe.fullName LIKE ? OR departement.nom LIKE ? OR services.nom LIKE ? OR poles.nom LIKE ? OR employe.role LIKE ? OR employe.fonction LIKE ? OR employe.email LIKE ? OR employe.username LIKE ? OR employe.nb_post LIKE ? OR employe.nb_bureau LIKE ? OR employe.corps LIKE ?";
 $stmt = $conn->prepare($sql);
 $searchTerm = "%$search%";
 $stmt->bind_param("sssssssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
@@ -90,11 +90,10 @@ $result = $stmt->get_result();
                         <div><strong>Term de recherche:</strong> <?php echo htmlspecialchars($search); ?></div>
                         <button class="expand-button" onclick="expandDetails(this)">Détails</button>
                         <div class="details" style="display:none;">
-                            <div><strong>Division:</strong> <?php echo htmlspecialchars($row['departement']); ?></div>
+                            <div><strong>Division:</strong> <?php echo htmlspecialchars($row['division']); ?></div>
                             <div><strong>Service:</strong> <?php echo htmlspecialchars($row['service']); ?></div>
                             <div><strong>Pole:</strong> <?php echo htmlspecialchars($row['pole']); ?></div>
                             <div><strong>Rôle:</strong> <?php echo htmlspecialchars($row['role']); ?></div>
-                            <div><strong>Occupation:</strong> <?php echo htmlspecialchars($row['occupation']); ?></div>
                             <div><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></div>
                             <div><strong>Username:</strong> <?php echo htmlspecialchars($row['username']); ?></div>
                             <div><strong>Nombre de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>

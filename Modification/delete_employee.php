@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
         exit();
     }
 
-    $stmt = $conn->prepare("DELETE FROM employes WHERE id = ?");
+    $stmt = $conn->prepare("DELETE FROM employe WHERE id = ?");
     if ($stmt) {
         $stmt->bind_param("i", $employeeId);
         if ($stmt->execute()) {

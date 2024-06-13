@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 $search = $_GET['search'] ?? '';
-$sql = "SELECT employe.*, departement.nom as division, services.nom as service, poles.nom as pole FROM employe 
+$sql = "SELECT employe.*, COALESCE(departement.nom, 'No Department') as division, COALESCE(services.nom, 'No Service') as service, COALESCE(poles.nom, 'No Pole') as pole FROM employe 
 LEFT JOIN departement ON employe.departement_id = departement.id 
 LEFT JOIN services ON employe.service_id = services.id 
 LEFT JOIN poles ON employe.pole_id = poles.id 

@@ -17,7 +17,7 @@ if ($result) {
 
 // Fetch chefs de service from the employes table where role is 'chef de service'
 $chefs = [];
-$result = $conn->query("SELECT id, fullName FROM employes WHERE role = 'chef de service'");
+$result = $conn->query("SELECT id, fullName FROM employe WHERE role = 'chef de service'");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $chefs[] = $row;
