@@ -2,29 +2,29 @@
 require_once '../backend/db.php';
 session_start();
 
-// Vérifiez si l'utilisateur est connecté
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    // Rediriger vers la page de connexion si non connecté
+    // Redirect to the login page if not logged in
     header('Location: login.php');
     exit();
 }
 
-// Supposons que user_id est stocké dans la session et que les données utilisateur sont récupérées d'une base de données
+// Assuming user_id is stored in the session and user data is retrieved from a database
 $user_id = $_SESSION['user_id'];
 
-// Récupérer les données utilisateur
-$sql = "SELECT employes.*, departements.nom as division, services.nom as service, poles.nom as pole FROM employes 
-        LEFT JOIN departements ON employes.id_departement = departements.id 
-        LEFT JOIN services ON employes.id_service = services.id 
-        LEFT JOIN poles ON employes.id_pole = poles.id 
-        WHERE employes.id = ?";
+// Retrieve user data
+$sql = "SELECT employe.*, poles.nom as pole, departement.nom as departement, services.nom as service FROM employe 
+        LEFT JOIN poles ON employe.pole_id = poles.id 
+        LEFT JOIN departement ON employe.departement_id = departement.id 
+        LEFT JOIN services ON employe.service_id = services.id 
+        WHERE employe.id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $userData = $result->fetch_assoc();
 
-// Fermer la déclaration et la connexion
+// Close the statement and connection
 $stmt->close();
 $conn->close();
 ?>
@@ -35,41 +35,42 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Utilisateur</title>
     <?php include '../pages/boot.php'; ?>
-    <link rel="stylesheet" href="../style/profile.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../style/profile.css">
     <?php include '../pages/nav.php'; ?>
 </head>
 <body>
-    <?php include '../pages/side.php'; ?>
+<?php include '../pages/side.php'; ?>
     <?php include '../pages/navbar.php'; ?>
-    
     <div class="container main-content">
-        <!-- Bouton Retour -->
         <?php if ($userData): ?>
             <h2>Profil</h2>
             <div class="profile-container">
                 <div class="profile-photo-container">
                     <?php if (!empty($userData['photo'])): ?>
                         <img src="<?php echo htmlspecialchars($userData['photo']); ?>" alt="Photo de Profil" class="profile-photo">
+                        <a href="edit_photo.php" class="btn btn-primary change-photo">Changer la photo</a>
                     <?php else: ?>
                         <p>Aucune photo de profil disponible.</p>
                     <?php endif; ?>
-                    <a href="edit_photo.php" class="btn btn-primary change-photo">Changer la photo</a>
                 </div>
                 <div class="profile-info">
-                    <p>Nom complet: <?php echo htmlspecialchars($userData['fullName']); ?></p>
+                    <p>Nom complet: <?php 
+                        echo ($userData['gender'] === 'female' ? 'Mme ' : 'Mr ') . htmlspecialchars($userData['fullName']); 
+                    ?></p>
                     <p>Email: <?php echo htmlspecialchars($userData['email']); ?></p>
-                    <p>Nom d'utilisateur: <?php echo htmlspecialchars($userData['username']); ?></p>
+                    <p>Téléphone: <?php echo htmlspecialchars($userData['tel']); ?></p>
+                    <p>Matricule: <?php echo htmlspecialchars($userData['matricule']); ?></p>
+                    <p>Grade: <?php echo htmlspecialchars($userData['grade']); ?></p>
                     <p>Rôle: <?php echo htmlspecialchars($userData['role']); ?></p>
+                    <p>Corps: <?php echo htmlspecialchars($userData['corps']); ?></p>
+                    <p>Fonction: <?php echo htmlspecialchars($userData['fonction']); ?></p>
                     <p>Pôle: <?php echo htmlspecialchars($userData['pole']); ?></p>
-                    <p>Division: <?php echo htmlspecialchars($userData['division']); ?></p>
+                    <p>Département: <?php echo htmlspecialchars($userData['departement']); ?></p>
                     <p>Service: <?php echo htmlspecialchars($userData['service']); ?></p>
                     <p>Nombre de postes: <?php echo htmlspecialchars($userData['nb_post']); ?></p>
-                    <p>Occupation: <?php echo htmlspecialchars($userData['occupation']); ?></p>
                     <p>Nombre de bureaux: <?php echo htmlspecialchars($userData['nb_bureau']); ?></p>
-                    <p class="corps">Corps: <?php echo htmlspecialchars($userData['corps']); ?></p>
-                    <!-- Bouton Modifier le Profil -->
+                    <!-- Buttons for editing profile and changing photo -->
                     <div class="form-actions">
-                        <a href="../pages/home.php" class="btn btn-primary">Retour</a>
                         <a href="edit_profile.php" class="btn btn-primary">Modifier le Profil</a>
                     </div>
                 </div>

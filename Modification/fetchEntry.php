@@ -5,9 +5,9 @@ $id = $_GET['id'];
 $type = $_GET['type'];
 
 if ($type === 'service') {
-    $query = "SELECT services.id, services.nom, services.nom_chef, services.id_departement, departements.nom AS nom_departement FROM services JOIN departements ON services.id_departement = departements.id WHERE services.id = ?";
+    $query = "SELECT services.id, services.nom, services.nom_chef, services.id_departement, departement.nom AS nom_departement FROM services JOIN departement ON services.id_departement = departement.id WHERE services.id = ?";
 } else if ($type === 'department') {
-    $query = "SELECT id, nom, nom_directeur, nom_pole FROM departements WHERE id = ?";
+    $query = "SELECT id, nom, nom_directeur, nom_pole FROM departement WHERE id = ?";
 } else if ($type === 'pole') {
     $query = "SELECT id, nom, nom_directeur FROM poles WHERE id = ?";
 }

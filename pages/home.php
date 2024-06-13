@@ -4,13 +4,13 @@ require_once '../backend/db.php';
 
 // Fetch counts from the database
 $totalPoles = $conn->query("SELECT COUNT(*) as count FROM poles")->fetch_assoc()['count'];
-$totalDepartments = $conn->query("SELECT COUNT(*) as count FROM departements")->fetch_assoc()['count'];
+$totalDepartments = $conn->query("SELECT COUNT(*) as count FROM departement")->fetch_assoc()['count'];
 $totalServices = $conn->query("SELECT COUNT(*) as count FROM services")->fetch_assoc()['count'];
-$totalEmployees = $conn->query("SELECT COUNT(*) as count FROM employes")->fetch_assoc()['count'];
-$totalRH = $conn->query("SELECT COUNT(*) as count FROM employes WHERE role='rh'")->fetch_assoc()['count'];
-$totalDirectors = $conn->query("SELECT COUNT(*) as count FROM employes WHERE role='directeur'")->fetch_assoc()['count'];
-$totalChefs = $conn->query("SELECT COUNT(*) as count FROM employes WHERE role='chef de service'")->fetch_assoc()['count'];
-$totalRegularEmployees = $conn->query("SELECT COUNT(*) as count FROM employes WHERE role='employe'")->fetch_assoc()['count'];
+$totalEmployees = $conn->query("SELECT COUNT(*) as count FROM employe")->fetch_assoc()['count'];
+$totalRH = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='rh'")->fetch_assoc()['count'];
+$totalDirectors = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='directeur'")->fetch_assoc()['count'];
+$totalChefs = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='chef de service'")->fetch_assoc()['count'];
+$totalRegularEmployees = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='employe'")->fetch_assoc()['count'];
 
 // Fetch the user's role from the session
 $userRole = $_SESSION['role'];

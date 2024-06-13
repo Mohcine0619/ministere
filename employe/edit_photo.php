@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $target_dir = "../uploads/";
         $target_file = $target_dir . basename($_FILES["photo"]["name"]);
         if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
-            $photo_sql = "UPDATE employes SET photo = ? WHERE id = ?";
+            $photo_sql = "UPDATE employe SET photo = ? WHERE id = ?";
             $photo_stmt = $conn->prepare($photo_sql);
             $photo_stmt->bind_param("si", $target_file, $user_id);
             $photo_stmt->execute();

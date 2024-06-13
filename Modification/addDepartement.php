@@ -15,9 +15,9 @@ if ($result) {
     $result->free();
 }
 
-// Fetch directors from the employes table where role is 'directeur'
+// Fetch directors from the employe table where role is 'directeur'
 $directeurs = [];
-$result = $conn->query("SELECT fullName FROM employes WHERE role = 'directeur'");
+$result = $conn->query("SELECT fullName FROM employe WHERE role = 'directeur'");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $directeurs[] = $row;
@@ -32,27 +32,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom_directeur = isset($_POST['nom_directeur']) ? htmlspecialchars($_POST['nom_directeur']) : null;
     $nom_pole = htmlspecialchars($_POST['nom_pole']);
 
-    // Prepare SQL statement to insert data into the database
-    $stmt = $conn->prepare("INSERT INTO departements (nom, nom_directeur, nom_pole) VALUES (?, ?, ?)");
-    if ($stmt) {
-        $stmt->bind_param("sss", $nom_departement, $nom_directeur, $nom_pole);
+// Prepare SQL statement to insert data into the database
+$stmt = $conn->prepare("INSERT INTO departement (nom, nom_directeur, nom_pole) VALUES (?, ?, ?)");
+if ($stmt) {
+    $stmt->bind_param("sss", $nom_departement, $nom_directeur, $nom_pole);
 
-        // Execute the statement
-        if ($stmt->execute()) {
-            $_SESSION['message'] = 'New department added successfully';
-            $_SESSION['message_type'] = 'success';
-        } else {
-            $_SESSION['message'] = 'Error: ' . $stmt->error;
-            $_SESSION['message_type'] = 'error';
-        }
-        $stmt->close();
+    // Execute the statement
+    if ($stmt->execute()) {
+        $_SESSION['message'] = 'New department added successfully';
+        $_SESSION['message_type'] = 'success';
     } else {
-        $_SESSION['message'] = 'Error preparing statement: ' . $conn->error;
+        $_SESSION['message'] = 'Error: ' . $stmt->error;
         $_SESSION['message_type'] = 'error';
     }
-    $conn->close();
-    header("Location: addDepartement.php");
-    exit();
+    $stmt->close();
+} else {
+    $_SESSION['message'] = 'Error preparing statement: ' . $conn->error;
+    $_SESSION['message_type'] = 'error';
+}
+$conn->close();
+header("Location: addDepartement.php");
+exit();
 }
 ?>
 

@@ -143,20 +143,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         </select>
     </div>
     <div class="form-group" id="departement" style="display:none;">
-        <label for="departement">Département:</label>
-        <select class="form-control" name="departement">
-            <!-- Populate with departments from your database -->
-            <?php
-            $query = "SELECT id, nom FROM departements";
-            $result = $conn->query($query);
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    echo '<option value="' . $row['id'] . '">' . $row['nom'] . '</option>';
-                }
+    <label for="departement">Département:</label>
+    <select class="form-control" name="departement">
+        <!-- Populate with departments from your database -->
+        <?php
+        $query = "SELECT id, nom FROM departement"; // Corrected table name here
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo '<option value="' . $row['id'] . '">' . $row['nom'] . '</option>';
             }
-            ?>
-        </select>
-    </div>
+        }
+        ?>
+    </select>
+</div>
     <div class="form-group" id="serviceSelection" style="display:none;">
         <label for="service">Service:</label>
         <select class="form-control" id="service" name="service">

@@ -1,18 +1,23 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start(); // Start the session if it hasn't been started yet
 }
 
 require_once '../backend/db.php'; // Adjust the path as needed to connect to your database
 
-// Fetch nom_directeurs values from departements table
+// Fetch fullName values from employe table where role is 'directeur'
 $nom_directeurs = [];
-$result = $conn->query("SELECT nom_directeur FROM departements");
+$result = $conn->query("SELECT fullName FROM employe WHERE role = 'directeur'");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
-        $nom_directeurs[] = $row['nom_directeur'];
+        $nom_directeurs[] = $row['fullName']; // Ensure the column name matches the one in your database
     }
     $result->free();
+} else {
+    error_log("SQL Error: " . $conn->error);  // Log error to PHP error log
 }
 
 // Check if the form is submitted

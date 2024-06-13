@@ -7,7 +7,7 @@ require_once '../backend/db.php'; // Adjust the path as needed to connect to you
 
 // Fetch departments from the database
 $departments = [];
-$result = $conn->query("SELECT id, nom FROM departements");
+$result = $conn->query("SELECT id, nom FROM departement");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $departments[] = $row;
@@ -32,17 +32,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom_chef = isset($_POST['nom_chef']) ? htmlspecialchars($_POST['nom_chef']) : null;
     $id_departement = isset($_POST['id_departement']) ? (int)$_POST['id_departement'] : null;
 
-    // Check if the department exists
-    $deptCheckStmt = $conn->prepare("SELECT id FROM departements WHERE id = ?");
-    $deptCheckStmt->bind_param("i", $id_departement);
-    $deptCheckStmt->execute();
-    $deptResult = $deptCheckStmt->get_result();
-    if ($deptResult->num_rows == 0) {
-        $_SESSION['message'] = 'Department does not exist.';
+
+// Check if the department exists
+$deptCheckStmt = $conn->prepare("SELECT id FROM departement WHERE id = ?");
+$deptCheckStmt->bind_param("i", $id_departement);
+$deptCheckStmt->execute();
+$deptResult = $deptCheckStmt->get_result();
+if ($deptResult->num_rows == 0) {
+    $_SESSION['message'] = 'Department does not exist.';
+    $_SESSION['message_type'] = 'error';
+    header("Location: addService.php");
+    exit();
+} else {
+    // Prepare SQL statement to insert data into the database
+    $stmt = $conn->prepare("INSERT INTO services (nom, nom_chef, id_departement) VALUES (?, ?, ?)");
+    if ($stmt) {
+        $stmt->bind_param("ssi", $nom, $nom_chef, $id_departement);
+        try {
+            // Execute the statement
+            if ($stmt->execute()) {
+                $_SESSION['message'] = 'New service added successfully';
+                $_SESSION['message_type'] = 'success';
+            } else {
+                throw new Exception('Error: ' . $stmt->error);
+            }
+        } catch (Exception $e) {
+            $_SESSION['message'] = $e->getMessage();
+            $_SESSION['message_type'] = 'error';
+        }
+        $stmt->close();
+    } else {
+        $_SESSION['message'] = 'Error preparing statement: ' . $conn->error;
         $_SESSION['message_type'] = 'error';
-        header("Location: addService.php");
-        exit();
     }
+    $conn->close();
+    header("Location: addService.php");
+    exit();
+}
 
     // Prepare SQL statement to insert data into the database
     $stmt = $conn->prepare("INSERT INTO services (nom, nom_chef, id_departement) VALUES (?, ?, ?)");

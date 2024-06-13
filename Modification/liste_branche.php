@@ -17,7 +17,7 @@ if ($result) {
 
 // Fetch departments from the database
 $departments = [];
-$result = $conn->query("SELECT id, nom, nom_directeur, nom_pole FROM departements");
+$result = $conn->query("SELECT id, nom, nom_directeur, nom_pole FROM departement");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $departments[] = $row;
@@ -27,7 +27,7 @@ if ($result) {
 
 // Fetch services from the database
 $services = [];
-$result = $conn->query("SELECT services.id, services.nom, services.nom_chef, departements.nom AS nom_departement FROM services JOIN departements ON services.id_departement = departements.id");
+$result = $conn->query("SELECT services.id, services.nom, services.nom_chef, departement.nom AS nom_departement FROM services JOIN departement ON services.id_departement = departement.id");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $services[] = $row;
@@ -37,7 +37,7 @@ if ($result) {
 
 // Fetch directors from the departments table
 $directors = [];
-$result = $conn->query("SELECT DISTINCT fullName FROM employes WHERE role = 'Directeur'");
+$result = $conn->query("SELECT DISTINCT fullName FROM employe WHERE role = 'directeur'");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $directors[] = $row;
@@ -46,7 +46,7 @@ if ($result) {
 }
 // Fetch chefs de service from the roles table
 $chefs = [];
-$result = $conn->query("SELECT DISTINCT fullName FROM employes WHERE role = 'chef de service'");
+$result = $conn->query("SELECT DISTINCT fullName FROM employe WHERE role = 'chef de service'");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $chefs[] = $row;
@@ -214,13 +214,16 @@ if ($result) {
                         <input type="text" class="form-control" id="modify-nom" name="nom" required>
                     </div>
                     <div class="form-group">
-                        <label for="modify-nom-directeur">Nom Directeur:</label>
-                        <select class="form-control" id="modify-nom-directeur" name="nom_directeur">
-                            <?php foreach ($directors as $director): ?>
-                                <option value="<?php echo htmlspecialchars($director['fullName']); ?>"><?php echo htmlspecialchars($director['fullName']); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+    <label for="modify-nom-directeur">Nom Directeur:</label>
+    <select class="form-control" id="modify-nom-directeur" name="nom_directeur">
+        <option value="">Aucun</option> <!-- Default option for no director -->
+        <?php foreach ($directors as $director): ?>
+            <option value="<?php echo htmlspecialchars($director['fullName']); ?>" <?php echo $director['fullName'] === null ? 'selected' : ''; ?>>
+                <?php echo htmlspecialchars($director['fullName']) ?: 'Aucun'; ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+</div>
                     <div class="form-group" id="modify-nom-pole-group">
                         <label for="modify-nom-pole">Nom Pole:</label>
                         <select class="form-control" id="modify-nom-pole" name="nom_pole">

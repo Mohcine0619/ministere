@@ -4,21 +4,23 @@ require_once '../backend/db.php';
 
 $message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-    $username = htmlspecialchars($_POST['username']); // Changed from email to username
-    $password = $_POST['password'];
+    $username = htmlspecialchars($_POST['username']); // Sanitize username
 
-    $stmt = $conn->prepare("SELECT id, username, password, role FROM employes WHERE username = ?"); // Fetch role as well
-    if ($stmt) {
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows == 1) {
-            $stmt->bind_result($user_id, $db_username, $db_password, $db_role); // Bind role
-            $stmt->fetch();
-            if (password_verify($password, $db_password)) {
+    // Check if connection is successful
+    if ($conn->connect_error) {
+        $message = "Connection failed: " . $conn->connect_error;
+    } else {
+        $stmt = $conn->prepare("SELECT id, username, role FROM employe WHERE username = ?");
+        if ($stmt) {
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows == 1) {
+                $stmt->bind_result($user_id, $db_username, $db_role); // Bind role
+                $stmt->fetch();
                 // Set session variables
                 $_SESSION['user_id'] = $user_id;
-                $_SESSION['username'] = $db_username; // Changed email to username
+                $_SESSION['username'] = $db_username;
                 $_SESSION['role'] = $db_role; // Store role in session
                 $_SESSION['logged_in'] = true;
 
@@ -26,16 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                 header('Location: home.php');
                 exit();
             } else {
-                $message = "Invalid username or password.";
+                $message = "Invalid username.";
             }
+            $stmt->close();
         } else {
-            $message = "Invalid username or password.";
+            $message = "Error preparing statement: " . $conn->error;
         }
-        $stmt->close();
-    } else {
-        $message = "Error preparing statement: " . $conn->error;
+        $conn->close();
     }
-    $conn->close();
 }
 ?>
 
@@ -56,17 +56,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             echo '<div class="alert alert-success" role="alert">' . $_SESSION['success_message'] . '</div>';
             unset($_SESSION['success_message']); // Clear the message after displaying it
         }
-    if (!empty($message)) {
-        echo '<div class="alert alert-danger" role="alert">' . $message . '</div>';
-    } ?>
+        if (!empty($message)) {
+            echo '<div class="alert alert-danger" role="alert">' . $message . '</div>';
+        }
+    ?>
     <form action="login.php" method="POST">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" class="form-control" id="username" name="username" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" required>
         </div>
         <button type="submit" name="login" class="btn btn-primary">Login</button>
         <a href="signup.php">Not registered yet?</a>
@@ -74,4 +71,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
 </div>
 </body>
 </html>
-
