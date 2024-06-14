@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
 $query = "
     SELECT c.id, c.date_debut, c.date_fin, c.motif, c.statut, e.fullName, e.role, e.nb_post, e.nb_bureau
     FROM conges c
-    JOIN employes e ON c.id_employe = e.id
+    JOIN employe e ON c.id_employe = e.id
     WHERE c.statut = 'pending'
 ";
 $result = $conn->query($query);

@@ -8,34 +8,62 @@ if(!isset($_SESSION['user_id'])){
     die("Erreur : L'ID utilisateur n'est pas défini dans la session.");
 }
 $employee_id=$_SESSION['user_id']; // Utiliser user_id de la session comme employee_id
-if($_SERVER["REQUEST_METHOD"]=="POST"&&isset($_POST['submit'])){
-    // Collecter et assainir les données d'entrée
-    $start_date=htmlspecialchars($_POST['start_date']);
-    $end_date=htmlspecialchars($_POST['end_date']);
-    $reason=htmlspecialchars($_POST['reason']);
-    // Préparer la déclaration SQL pour insérer les données dans la base de données
-    $stmt=$conn->prepare("INSERT INTO conges (id_employe, date_debut, date_fin, motif, statut) VALUES (?, ?, ?, ?, 'pending')");
+
+// Handle delete request
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
+    $conge_id = (int)$_POST['conge_id']; // Cast to int for safety
+    $delete_stmt = $conn->prepare("DELETE FROM conges WHERE id = ?");
+    $delete_stmt->bind_param("i", $conge_id);
+    if($delete_stmt->execute()){
+        $message = "Demande de congé supprimée avec succès !";
+        $message_class = "alert-success";
+    } else {
+        $message = "Erreur lors de la suppression : " . $delete_stmt->error;
+    }
+    $delete_stmt->close();
+    // Refresh the page to reflect the change
+    header("Location: demander_conge.php");
+    exit();
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])){
+    // Collect and sanitize input data
+    $start_date = htmlspecialchars($_POST['start_date']);
+    $end_date = htmlspecialchars($_POST['end_date']);
+    $reason = htmlspecialchars($_POST['reason']);
+    $categorie = isset($_POST['category']) ? htmlspecialchars($_POST['category']) : 'default_category';
+    $responsable_id = isset($_POST['responsable']) ? (int)$_POST['responsable'] : 0; // Cast to int for safety
+
+    // Prepare SQL statement to insert data into the database
+    $stmt = $conn->prepare("INSERT INTO conges (id_employe, categorie, date_debut, date_fin, motif, statut, id_responsable) VALUES (?, ?, ?, ?, ?, 'pending', ?)");
     if($stmt){
-        $stmt->bind_param("isss",$employee_id,$start_date,$end_date,$reason);
-        // Exécuter la déclaration
+        $stmt->bind_param("issssi", $employee_id, $categorie, $start_date, $end_date, $reason, $responsable_id);
+        // Execute the statement
         if($stmt->execute()){
-            $message="Demande de congé soumise avec succès !";
-            $message_class="alert-success"; // Changer en classe de succès
-        }else{
-            $message="Erreur : ".$stmt->error;
+            $message = "Demande de congé soumise avec succès !";
+            $message_class = "alert-success";
+            // Redirect to the same page to prevent form resubmission
+            header("Location: demander_conge.php?success=1");
+            exit();
+        } else {
+            $message = "Erreur : " . $stmt->error;
         }
         $stmt->close();
-    }else{
-        $message="Erreur lors de la préparation de la déclaration : ".$conn->error;
+    } else {
+        $message = "Erreur lors de la préparation de la déclaration : " . $conn->error;
     }
 }
+$manager_query = "SELECT id, fullName FROM employe WHERE role = 'RH'";
+$manager_result = $conn->query($manager_query);
+$managers = $manager_result->fetch_all(MYSQLI_ASSOC);
 // Récupérer toutes les demandes de congé pour l'utilisateur connecté
-$query="SELECT date_debut, date_fin, motif, statut FROM conges WHERE id_employe = ?";
-$stmt=$conn->prepare($query);
-$stmt->bind_param("i",$employee_id);
+
+$query = "SELECT c.id, c.categorie, c.date_debut, c.date_fin, c.motif, c.statut, e.fullName, r.fullName AS responsableName FROM conges c JOIN employe e ON c.id_employe = e.id LEFT JOIN employe r ON c.id_responsable = r.id WHERE c.id_employe = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $employee_id);
 $stmt->execute();
-$result=$stmt->get_result();
-$leave_requests=$result->fetch_all(MYSQLI_ASSOC);
+$result = $stmt->get_result();
+$leave_requests = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 $conn->close(); // Fermer la connexion après toutes les opérations
 ?><!DOCTYPE html>
@@ -141,22 +169,40 @@ $conn->close(); // Fermer la connexion après toutes les opérations
         echo '<div class="alert '.$message_class.'" role="alert">'.$message.'</div>';
     }
    ?>
-    <form action="demander_conge.php" method="POST">
-        <div class="form-group">
-            <label for="start_date">Date de début :</label>
-            <input type="date" class="form-control" id="start_date" name="start_date" required>
-        </div>
-        <div class="form-group">
-            <label for="end_date">Date de fin :</label>
-            <input type="date" class="form-control" id="end_date" name="end_date" required>
-        </div>
-        <div class="form-group">
-            <label for="reason">Motif :</label>
-            <textarea class="form-control" id="reason" name="reason" required></textarea>
-        </div>
-        <button type="submit" name="submit" class="btn btn-primary">Soumettre</button>
-        <button type="button" class="btn btn-cancel" onclick="cancelRequest()">Annuler</button>
-    </form>
+<form action="demander_conge.php" method="POST">
+<div class="form-group">
+        <label for="category">Catégorie de congé :</label>
+        <select class="form-control" id="category" name="category" required>
+            <option value="annuel">Congé annuel</option>
+            <option value="maladie">Congé de maladie</option>
+            <option value="maternite">Congé de maternité</option>
+            <option value="formation">Congé de formation</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="start_date">Date de début :</label>
+        <input type="date" class="form-control" id="start_date" name="start_date" required>
+    </div>
+    <div class="form-group">
+        <label for="end_date">Date de fin :</label>
+        <input type="date" class="form-control" id="end_date" name="end_date" required>
+    </div>
+    <div class="form-group">
+        <label for="reason">Motif :</label>
+        <textarea class="form-control" id="reason" name="reason" required></textarea>
+    </div>
+    <div class="form-group">
+    <label for="responsable">Responsable :</label>
+    <select class="form-control" id="responsable" name="responsable" required>
+        <?php foreach($managers as $manager): ?>
+            <option value="<?php echo $manager['id']; ?>"><?php echo htmlspecialchars($manager['fullName']); ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+    <button type="submit" name="submit" class="btn btn-primary">Soumettre</button>
+    <button type="button" class="btn btn-cancel" onclick="cancelRequest()">Annuler</button>
+</form>
     <h2>Demandes de congé</h2>
     <?php if(!empty($leave_requests)): ?>
         <table class="table table-bordered">
@@ -165,19 +211,30 @@ $conn->close(); // Fermer la connexion après toutes les opérations
                     <th>Date de début</th>
                     <th>Date de fin</th>
                     <th>Motif</th>
+                    <th>Catégorie</th>
+                    <th>Responsable</th>
                     <th>Statut</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($leave_requests as $leave): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($leave['date_debut']); ?></td>
-                        <td><?php echo htmlspecialchars($leave['date_fin']); ?></td>
-                        <td><?php echo htmlspecialchars($leave['motif']); ?></td>
-                        <td><?php echo htmlspecialchars($leave['statut']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+    <?php foreach($leave_requests as $leave): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($leave['date_debut']); ?></td>
+            <td><?php echo htmlspecialchars($leave['date_fin']); ?></td>
+            <td><?php echo htmlspecialchars($leave['motif']); ?></td>
+            <td><?php echo htmlspecialchars($leave['categorie']); ?></td>
+            <td><?php echo htmlspecialchars($leave['responsableName']); ?></td>
+            <td><?php echo htmlspecialchars($leave['statut']); ?></td>
+            <td>
+                <form action="demander_conge.php" method="POST">
+                    <input type="hidden" name="conge_id" value="<?php echo $leave['id']; ?>">
+                    <button type="submit" name="delete" class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
         </table>
     <?php else: ?>
         <div class="alert alert-info" role="alert">Aucune demande de congé trouvée.</div>
