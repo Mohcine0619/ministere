@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tel = htmlspecialchars($_POST['tel']);
     $matricule = htmlspecialchars($_POST['matricule']);
     $grade = htmlspecialchars($_POST['grade']);
-    $role = htmlspecialchars($_POST['role']);
+    $role = null; // Set role to null
     $corps = htmlspecialchars($_POST['corps']);
     $fonction = htmlspecialchars($_POST['fonction']);
     $nb_post = intval($_POST['nb_post']);
@@ -91,29 +91,36 @@ $conn->close();
                 <input type="text" name="matricule" class="form-control" value="<?php echo htmlspecialchars($userData['matricule'] ?? ''); ?>" required>
             </div>
             <div class="form-group">
-                <label for="grade">Grade:</label>
-                <input type="text" name="grade" class="form-control" value="<?php echo htmlspecialchars($userData['grade'] ?? ''); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="role">Role:</label>
-                <select name="role" class="form-control">
-                    <?php while ($row = $roles->fetch_assoc()) {
-                        echo '<option value="' . $row['role'] . '"' . ($row['role'] == $userData['role'] ? ' selected' : '') . '>' . $row['role'] . '</option>';
-                    } ?>
+                <label for="corps">Corps:</label>
+                <select name="corps" id="corps" class="form-control" onchange="updateGradeOptions();">
+                    <option value="">Select Corps</option>
+                    <option value="rh">RH</option>
+                    <option value="Adjoints Administratifs">Adjoints Administratifs</option>
+                    <option value="Adjoints Techniques">Adjoints Techniques</option>
+                    <option value="Administrateurs">Administrateurs</option>
+                    <option value="Interministeriels des Ingénieurs">Interministeriels des Ingénieurs</option>
+                    <option value="Particuliier des adjoints Techniques">Particuliier des adjoints Techniques</option>
+                    <option value="Personnel des Douanes">Personnel des Douanes</option>
+                    <option value="Ingénieurs et Architectes">Ingénieurs et Architectes</option>
+                    <option value="Inspecteurs des Finances">Inspecteurs des Finances</option>
+                    <option value="Rédacteurs">Rédacteurs</option>
+                    <option value="Techniciens">Techniciens</option>
+                    <!-- Add more corps options as needed -->
                 </select>
             </div>
             <div class="form-group">
-                <label for="corps">Corps:</label>
-                <select name="corps" id="corps" class="form-control" onchange="updateFonctionOptions()">
-                    <option value="">Select Corps</option>
-                    <option value="Corps1">Corps1</option>
-                    <option value="Corps2">Corps2</option>
-                    <!-- Add more corps options as needed -->
+                <label for="grade">Grade:</label>
+                <select name="grade" id="grade" class="form-control">
+                    <!-- Dynamically populated based on corps -->
                 </select>
             </div>
             <div class="form-group">
                 <label for="fonction">Fonction:</label>
                 <select name="fonction" id="fonction" class="form-control">
+                    <option value="">Select Fonction</option>
+                    <option value="Fonction1">Fonction1</option>
+                    <option value="Fonction2">Fonction2</option>
+                    <option value="Fonction3">Fonction3</option>
                     <!-- Options will be populated based on corps selection -->
                 </select>
             </div>
@@ -135,26 +142,24 @@ $conn->close();
 </body>
 </html>
 <script>
-function updateFonctionOptions() {
+function updateGradeOptions() {
     var corps = document.getElementById('corps').value;
-    var fonctionSelect = document.getElementById('fonction');
-    fonctionSelect.innerHTML = ''; // Clear existing options
+    var gradeSelect = document.getElementById('grade');
+    gradeSelect.innerHTML = ''; // Clear existing options
 
-    // Assuming you have a way to fetch functions based on corps, e.g., via an API or a predefined object
+    // Assuming you have a way to fetch grades based on corps, e.g., via an API or a predefined object
     // For demonstration, using static values:
-    if (corps === 'Corps1') {
-        fonctionSelect.innerHTML += '<option value="Fonction1A">Fonction1A</option>';
-        fonctionSelect.innerHTML += '<option value="Fonction1B">Fonction1B</option>';
-        fonctionSelect.innerHTML += '<option value="Fonction1C">Fonction1C</option>';
-        fonctionSelect.innerHTML += '<option value="Fonction1D">Fonction1D</option>';
-    } else if (corps === 'Corps2') {
-        fonctionSelect.innerHTML += '<option value="Fonction2A">Fonction2A</option>';
-        fonctionSelect.innerHTML += '<option value="Fonction2B">Fonction2B</option>';
-        fonctionSelect.innerHTML += '<option value="Fonction2C">Fonction2C</option>';
-        fonctionSelect.innerHTML += '<option value="Fonction2D">Fonction2D</option>';
+    if (corps === 'Ingénieurs et Architectes') {
+        gradeSelect.innerHTML = '<option value="ARCHITECTE 1ER GRADE">ARCHITECTE 1ER GRADE</option><option value="ARCHITECTE EN CHEF 1ER GRADE">ARCHITECTE EN CHEF 1ER GRADE</option>';
+        gradeSelect.innerHTML += '<option value="ARCHITECTE EN CHEF GRADE PRINCIPALE">ARCHITECTE EN CHEF GRADE PRINCIPALE</option><option value="ARCHITECTE GRADE PRINCIPALE">ARCHITECTE GRADE PRINCIPALE</option>';
+        gradeSelect.innerHTML += '<option value="INGENIEUR D\'ETAT 1ER GRADE">INGENIEUR D\'ETAT 1ER GRADE</option><option value="INGENIEUR D\'ETAT GRADE PRINCIPALE">INGENIEUR D\'ETAT GRADE PRINCIPALE</option>';
+        gradeSelect.innerHTML += '<option value="INGENIEUR D\'ETAT EN CHEF 1ER GRADE">INGENIEUR D\'ETAT EN CHEF 1ER GRADE</option><option value="INGENIEUR EN CHEF GRADE PRINCIPALE">INGENIEUR EN CHEF GRADE PRINCIPALE</option>';
+    } else {
+        gradeSelect.innerHTML = '<option value="Grade1">Grade1</option><option value="Grade2">Grade2</option>';
+        gradeSelect.innerHTML += '<option value="Grade3">Grade3</option><option value="Grade4">Grade4</option>';
     }
     // Add more conditions and options based on different corps
 }
 
-document.getElementById('corps').addEventListener('change', updateFonctionOptions);
+document.getElementById('corps').addEventListener('change', updateGradeOptions);
 </script>

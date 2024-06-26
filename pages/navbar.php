@@ -4,13 +4,16 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Vérifier si les variables de session sont définies
-if (isset($_SESSION['role'])) {
+if (isset($_SESSION['corps'])) {
     // Accéder aux variables de session en toute sécurité
-    $user_role = $_SESSION['role'];
+    $user_corps = $_SESSION['corps'];
 } else {
     // Gérer le cas où les variables de session ne sont pas définies
-    $user_role = 'default_role';
+    $user_corps = 'default_corps';
 }
+
+// Debug: Afficher la valeur de $user_corps
+
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -21,8 +24,7 @@ if (isset($_SESSION['role'])) {
     <a href="../employe/chercher_emp.php"><i class="fas fa-search"></i> <span class="link-text">Chercher Employés</span></a>
     <a href="../employe/demander_conge.php"><i class="fas fa-calendar-alt"></i> <span class="link-text">Demander Congé</span></a>
 
-    
-    <?php if ($user_role === 'rh' || $user_role === 'RH'): ?>
+    <?php if ($user_corps === 'rh' || $user_corps === 'RH'): ?>
     <div class="dropdown">
         <a href="#"><i class="fas fa-wrench"></i> <span class="link-text">Paramètres Avancés</span></a>
         <div class="dropdown-content">

@@ -44,20 +44,22 @@ $result = $stmt->get_result();
             <?php while ($row = $result->fetch_assoc()): ?>
             <li class="employee-info">
             <img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Photo de l'Employé" class="employee-photo">
-            <div><strong>Nom Complet:</strong><?php echo ($row['gender'] === 'female' ? 'Mme ' : 'Mr ') . htmlspecialchars($row['fullName']); ?></div>
-            <div><strong>Terme de Recherche:</strong><?php echo htmlspecialchars($search); ?></div>
+            <div><strong>Nom Complet:</strong> <?php echo ($row['gender'] === 'female' ? 'Mme ' : 'Mr ') . htmlspecialchars($row['fullName']); ?></div>
+            <div><strong>Matricule:</strong> <?php echo htmlspecialchars($row['matricule']); ?></div>
+            <div><strong>Tel:</strong> <?php echo htmlspecialchars($row['tel']); ?></div>
+            <div><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></div>
+            <div><strong>Terme de Recherche:</strong> <?php echo htmlspecialchars($search); ?></div>
             <button class="expand-button" onclick="expandDetails(this)">Détails</button>
             <div class="details" style="display:none;">
-                <div><strong>Division:</strong><?php echo htmlspecialchars($row['division']); ?></div>
-                <div><strong>Service:</strong><?php echo htmlspecialchars($row['service']); ?></div>
-                <div><strong>Pole:</strong><?php echo htmlspecialchars($row['pole']); ?></div>
-                <div><strong>Rôle:</strong><?php echo htmlspecialchars($row['role']); ?></div>
-                <div><strong>Fonction:</strong><?php echo htmlspecialchars($row['fonction']); ?></div>
-                <div><strong>Email:</strong><?php echo htmlspecialchars($row['email']); ?></div>
-                <div><strong>Nom d'utilisateur:</strong><?php echo htmlspecialchars($row['username']); ?></div>
-                <div><strong>Nombre de post:</strong><?php echo htmlspecialchars($row['nb_post']); ?></div>
-                <div><strong>Nombre de bureau:</strong><?php echo htmlspecialchars($row['nb_bureau']); ?></div>
-                <div><strong>Corps:</strong><?php echo htmlspecialchars($row['corps']); ?></div>
+                <div><strong>Division:</strong> <?php echo htmlspecialchars($row['division']); ?></div>
+                <div><strong>Service:</strong> <?php echo htmlspecialchars($row['service']); ?></div>
+                <div><strong>Pole:</strong> <?php echo htmlspecialchars($row['pole']); ?></div>
+                <div><strong>Rôle:</strong> <?php echo htmlspecialchars($row['role']); ?></div>
+                <div><strong>Fonction:</strong> <?php echo htmlspecialchars($row['fonction']); ?></div>
+                <div><strong>Nom d'utilisateur:</strong> <?php echo htmlspecialchars($row['username']); ?></div>
+                <div><strong>Nombre de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>
+                <div><strong>Nombre de bureau:</strong> <?php echo htmlspecialchars($row['nb_bureau']); ?></div>
+                <div><strong>Corps:</strong> <?php echo htmlspecialchars($row['corps']); ?></div>
                 <button class="shorten-button" onclick="shortenDetails(this)" style="display:none;">Réduire</button>
             </div>
         </li>

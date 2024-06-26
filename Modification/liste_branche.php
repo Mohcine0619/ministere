@@ -174,7 +174,7 @@ if ($result) {
             <th>ID</th>
             <th>Nom</th>
             <th>Nom Chef</th>
-            <th>Nom Département</th> <!-- Corrected this line -->
+            <th>Nom Département</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -184,7 +184,7 @@ if ($result) {
                 <td><?php echo htmlspecialchars($service['id']); ?></td>
                 <td><?php echo htmlspecialchars($service['nom']); ?></td>
                 <td><?php echo htmlspecialchars($service['nom_chef']); ?></td>
-                <td><?php echo htmlspecialchars($service['nom_departement']); ?></td> <!-- Corrected this line -->
+                <td><?php echo htmlspecialchars($service['nom_departement']); ?></td>
                 <td class="action-buttons">
                     <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $service['id']; ?>" data-type="service">Modifier</button>
                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $service['id']; ?>" data-type="service">Supprimer</button>

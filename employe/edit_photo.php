@@ -64,3 +64,4 @@ $conn->close();
     <?php include '../pages/footer.php'; ?>
 </body>
 </html>
+

@@ -2,6 +2,8 @@
 session_start(); // Start the session at the beginning of the script
 require_once '../backend/db.php';
 
+
+
 $message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $username = htmlspecialchars($_POST['username']); // Sanitize username
@@ -10,18 +12,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     if ($conn->connect_error) {
         $message = "Connection failed: " . $conn->connect_error;
     } else {
-        $stmt = $conn->prepare("SELECT id, username, role FROM employe WHERE username = ?");
+        $stmt = $conn->prepare("SELECT id, username, role, corps FROM employe WHERE username = ?");
         if ($stmt) {
             $stmt->bind_param("s", $username);
             $stmt->execute();
             $stmt->store_result();
             if ($stmt->num_rows == 1) {
-                $stmt->bind_result($user_id, $db_username, $db_role); // Bind role
+                $stmt->bind_result($user_id, $db_username, $db_role, $db_corps); // Bind corps
                 $stmt->fetch();
                 // Set session variables
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['username'] = $db_username;
-                $_SESSION['role'] = $db_role; // Store role in session
+                $_SESSION['role'] = $db_role;
+                $_SESSION['corps'] = $db_corps; // Store corps in session
                 $_SESSION['logged_in'] = true;
 
                 // Redirect to dashboard or home page

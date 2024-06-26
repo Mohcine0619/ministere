@@ -13,7 +13,14 @@ $totalChefs = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='ch
 $totalRegularEmployees = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='employe'")->fetch_assoc()['count'];
 
 // Fetch the user's role from the session
-$userRole = $_SESSION['role'];
+if (isset($_SESSION['corps'])) {
+    // Accéder aux variables de session en toute sécurité
+    $user_corps = $_SESSION['corps'];
+} else {
+    // Gérer le cas où les variables de session ne sont pas définies
+    $user_corps = 'default_corps';
+}
+
 
 $conn->close();
 ?>
@@ -36,7 +43,7 @@ $conn->close();
     <div class="container main-content">
         <h1>Accueil</h1>
         <div class="dashboard">
-            <?php if ($userRole == 'rh'): ?>
+            <?php if ($user_corps == 'rh'): ?>
                 <a href="../Modification/liste_branche.php" class="card">
                     <h2><?php echo $totalPoles; ?></h2>
                     <p>Total Pôles</p>

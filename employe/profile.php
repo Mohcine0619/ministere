@@ -35,7 +35,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Utilisateur</title>
     <?php include '../pages/boot.php'; ?>
-    <link rel="stylesheet" href="../style/profile.css">
+    <link rel="stylesheet" href="../style/profile.css?v=<?php echo time(); ?>">
     <?php include '../pages/nav.php'; ?>
 </head>
 <body>
@@ -45,34 +45,41 @@ $conn->close();
         <?php if ($userData): ?>
             <h2>Profil</h2>
             <div class="profile-container">
-                <div class="profile-photo-container">
-                    <?php if (!empty($userData['photo'])): ?>
-                        <img src="<?php echo htmlspecialchars($userData['photo']); ?>" alt="Photo de Profil" class="profile-photo">
-                        <a href="edit_photo.php" class="btn btn-primary change-photo">Changer la photo</a>
-                    <?php else: ?>
-                        <p>Aucune photo de profil disponible.</p>
-                    <?php endif; ?>
-                </div>
-                <div class="profile-info">
-                    <p>Nom complet: <?php 
-                        echo ($userData['gender'] === 'female' ? 'Mme ' : 'Mr ') . htmlspecialchars($userData['fullName']); 
-                    ?></p>
-                    <p>Email: <?php echo htmlspecialchars($userData['email']); ?></p>
-                    <p>Téléphone: <?php echo htmlspecialchars($userData['tel']); ?></p>
-                    <p>Matricule: <?php echo htmlspecialchars($userData['matricule']); ?></p>
-                    <p>Grade: <?php echo htmlspecialchars($userData['grade']); ?></p>
-                    <p>Rôle: <?php echo htmlspecialchars($userData['role']); ?></p>
-                    <p>Corps: <?php echo htmlspecialchars($userData['corps']); ?></p>
-                    <p>Fonction: <?php echo htmlspecialchars($userData['fonction']); ?></p>
-                    <p>Pôle: <?php echo htmlspecialchars($userData['pole']); ?></p>
-                    <p>Département: <?php echo htmlspecialchars($userData['departement']); ?></p>
-                    <p>Service: <?php echo htmlspecialchars($userData['service']); ?></p>
-                    <p>Nombre de postes: <?php echo htmlspecialchars($userData['nb_post']); ?></p>
-                    <p>Nombre de bureaux: <?php echo htmlspecialchars($userData['nb_bureau']); ?></p>
-                    <!-- Buttons for editing profile and changing photo -->
-                    <div class="form-actions">
-                        <a href="edit_profile.php" class="btn btn-primary">Modifier le Profil</a>
+                <div class="profile-photo-info-container">
+                    <div class="profile-photo-container">
+                        <?php if (!empty($userData['photo'])): ?>
+                            <img src="<?php echo htmlspecialchars($userData['photo']); ?>" alt="Photo de Profil" class="profile-photo">
+                            <a href="edit_photo.php" class="btn btn-primary change-photo">Changer la photo</a>
+                        <?php else: ?>
+                            <p>Aucune photo de profil disponible.</p>
+                            <a href="edit_photo.php" class="btn btn-primary change-photo">Ajouter une photo</a>
+                        <?php endif; ?>
                     </div>
+                    <div class="profile-info-container">
+                        <div class="profile-info">
+                            <h3>Identité</h3>
+                            <p>Nom complet: <?php 
+                                echo ($userData['gender'] === 'female' ? 'Mme ' : 'Mr ') . htmlspecialchars($userData['fullName']); 
+                            ?></p>
+                            <p>Grade: <?php echo htmlspecialchars($userData['grade']); ?></p>
+                            <p>Fonction: <?php echo htmlspecialchars($userData['fonction']); ?></p>
+                        </div>
+                        <div class="profile-info">
+                            <h3>Coordonnées</h3>
+                            <p>Email: <?php echo htmlspecialchars($userData['email']); ?></p>
+                            <p>Téléphone: <?php echo htmlspecialchars($userData['tel']); ?></p>
+                            <p>Matricule: <?php echo htmlspecialchars($userData['matricule']); ?></p>
+                            <p>Corps: <?php echo htmlspecialchars($userData['corps']); ?></p>
+                            <p>Pôle: <?php echo htmlspecialchars($userData['pole']); ?></p>
+                            <p>Département: <?php echo htmlspecialchars($userData['departement']); ?></p>
+                            <p>Service: <?php echo htmlspecialchars($userData['service']); ?></p>
+                            <p>Nombre de postes: <?php echo htmlspecialchars($userData['nb_post']); ?></p>
+                            <p>Nombre de bureaux: <?php echo htmlspecialchars($userData['nb_bureau']); ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <a href="edit_profile.php" class="btn btn-primary">Modifier le Profil</a>
                 </div>
             </div>
         <?php else: ?>

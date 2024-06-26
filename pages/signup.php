@@ -2,11 +2,10 @@
 session_start(); // Start the session
 require_once '../backend/db.php';
 
-// Fetch poles, departments, services, and corps from the database
+// Fetch poles, departments, and services from the database
 $poles = [];
 $departments = [];
 $services = [];
-$corps = [];
 
 // Fetching poles
 $poleResult = $conn->query("SELECT id, nom FROM poles");
@@ -27,7 +26,6 @@ if ($deptResult) {
 }
 
 // Fetch services with id_departement
-$services = [];
 $serviceResult = $conn->query("SELECT id, nom, id_departement FROM services");
 if ($serviceResult) {
     while ($serviceRow = $serviceResult->fetch_assoc()) {
@@ -36,7 +34,6 @@ if ($serviceResult) {
     $serviceResult->free();
 }
 
-// Fetch corps
 
 $message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
@@ -47,9 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $tel = htmlspecialchars($_POST['tel']);
     $matricule = htmlspecialchars($_POST['matricule']);
     $grade = htmlspecialchars($_POST['grade']);
-    $fonction = htmlspecialchars($_POST['fonction']);
-    $role = htmlspecialchars($_POST['role']); // Collect role
-    $corps = htmlspecialchars($_POST['corps']); // Collect corps
+    $fonction = htmlspecialchars($_POST['fonction']); // Collect fonction
+    $role = null; // Collect role
+    $corps = htmlspecialchars($_POST['corps']);
+    $_SESSION['corps'] = $corps; // Collect corps
     $nb_post = intval($_POST['nb_post']);
     $nb_bureau = intval($_POST['nb_bureau']);
     $pole = isset($_POST['pole']) && $_POST['pole'] !== '' ? intval($_POST['pole']) : null;
@@ -73,6 +71,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             echo $message;
         }
     }
+
+    // Store corps in session
+
+
 
     // Prepare SQL statement to insert data into the database, including photo path and gender
     $stmt = $conn->prepare("INSERT INTO employe (matricule, fullName, username, tel, email, role, corps, fonction, grade, nb_post, nb_bureau, pole_id, departement_id, service_id, photo, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -136,30 +138,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             <input type="text" class="form-control" id="matricule" name="matricule" required>
         </div>
         <div class="form-group">
-            <label for="grade">Grade:</label>
-            <input type="text" class="form-control" id="grade" name="grade" required>
-        </div>
-        <div class="form-group">
-            <label for="role">Role:</label>
-            <select class="form-control" id="role" name="role" onchange="toggleVisibilityBasedOnRole()">
-                <option value="rh">RH</option>
-                <option value="directeur">Directeur</option>
-                <option value="chef de service">Chef de Service</option>
-                <option value="employe">Employé</option>
-            </select>
-        </div>
-        <div class="form-group">
             <label for="corps">Corps:</label>
-            <select class="form-control" id="corps" name="corps" onchange="updateFonctionOptions()">
+            <select class="form-control" id="corps" name="corps" onchange="updateGradeOptions(); toggleVisibilityBasedOnCorps();">
                 <option value="">Select Corps</option>
-                <option value="Corps1">Corps1</option>
-                <option value="Corps2">Corps2</option>
+                <option value="rh">RH</option>
+                <option value="Adjoints Administratifs">Adjoints Administratifs</option>
+                <option value="Adjoints Techniques">Adjoints Techniques</option>
+                <option value="Administrateurs">Administrateurs</option>
+                <option value="Interministeriels des Ingénieurs"> Interministeriels des Ingénieurs</option>
+                <option value="Particuliier des adjoints Techniques"> Particuliier des adjoints Techniques</option>
+                <option value="Personnel des Douanes"> Personnel des Douanes</option>
+                <option value="Ingénieurs et Architectes">Ingénieurs et Architectes</option>
+                <option value="Inspecteurs des Finances">Inspecteurs des Finances</option>
+                <option value="Rédacteurs">Rédacteurs</option>
+                <option value="Techniciens">Techniciens</option>
                 <!-- Add more corps options as needed -->
             </select>
         </div>
         <div class="form-group">
-            <label for="fonction">Fonction:</label>
-            <select class="form-control" id="fonction" name="fonction">
+            <label for="grade">Grade:</label>
+            <select class="form-control" id="grade" name="grade">
                 <!-- Dynamically populated based on corps -->
             </select>
         </div>
@@ -223,28 +221,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 </div>
 
 <script>
-function updateFonctionOptions() {
+function updateGradeOptions() {
     var corps = document.getElementById('corps').value;
-    var fonctionSelect = document.getElementById('fonction');
-    fonctionSelect.innerHTML = ''; // Clear existing options
+    var gradeSelect = document.getElementById('grade');
+    gradeSelect.innerHTML = ''; // Clear existing options
 
-    if (corps === 'Corps1') {
-        fonctionSelect.innerHTML = '<option value="Fonction1A">Fonction1A</option><option value="Fonction1B">Fonction1B</option>';
-        fonctionSelect.innerHTML = '<option value="Fonction1C">Fonction1C</option><option value="Fonction1D">Fonction1D</option>';
-    } else if (corps === 'Corps2') {
-        fonctionSelect.innerHTML = '<option value="Fonction2A">Fonction2A</option><option value="Fonction2B">Fonction2B</option>';
-        fonctionSelect.innerHTML = '<option value="Fonction2C">Fonction2C</option><option value="Fonction2D">Fonction2D</option>';
+    if (corps === 'Ingénieurs et Architectes') {
+        gradeSelect.innerHTML = '<option value="ARCHITECTE 1ER GRADE">ARCHITECTE 1ER GRADE</option><option value="ARCHITECTE EN CHEF 1ER GRADE">ARCHITECTE EN CHEF 1ER GRADE</option>';
+        gradeSelect.innerHTML += '<option value="ARCHITECTE EN CHEF GRADE PRINCIPALE">ARCHITECTE EN CHEF GRADE PRINCIPALE</option><option value="ARCHITECTE GRADE PRINCIPALE">ARCHITECTE GRADE PRINCIPALE</option>';
+        gradeSelect.innerHTML += '<option value="INGENIEUR D\'ETAT 1ER GRADE">INGENIEUR D\'ETAT 1ER GRADE</option><option value="INGENIEUR D\'ETAT GRADE PRINCIPALE">INGENIEUR D\'ETAT GRADE PRINCIPALE</option>';
+        gradeSelect.innerHTML += '<option value="INGENIEUR D\'ETAT ENCHEF 1ER GRADE">INGENIEUR D\'ETAT EN CHEF 1ER GRADE</option><option value="INGENIEUR EN CHEF GRADE PRINCIPALE">INGENIEUR EN CHEF GRADE PRINCIPALE</option>';
+    } else {
+        gradeSelect.innerHTML = '<option value="Fonction2A">Fonction2A</option><option value="Fonction2B">Fonction2B</option>';
+        gradeSelect.innerHTML += '<option value="Fonction2C">Fonction2C</option><option value="Fonction2D">Fonction2D</option>';
     }
     // Add more conditions and options based on different corps
 }
-
-function toggleVisibilityBasedOnRole() {
-    var role = document.getElementById('role').value;
+function toggleVisibilityBasedOnCorps() {
+    var corps = document.getElementById('corps').value;
     var poleSection = document.getElementById('poleSelection');
     var departementSection = document.getElementById('departement');
     var serviceSection = document.getElementById('serviceSelection');
 
-    if (role === 'rh') {
+    if (corps === 'rh') {
         poleSection.style.display = 'none';
         departementSection.style.display = 'none';
         serviceSection.style.display = 'none';
@@ -254,7 +253,6 @@ function toggleVisibilityBasedOnRole() {
         serviceSection.style.display = 'block';
     }
 }
-
 function filterDepartements() {
     var selectedPoleName = document.getElementById('pole').options[document.getElementById('pole').selectedIndex].text;
     var departementSelect = document.getElementById('departement').querySelector('select');
@@ -288,7 +286,8 @@ function filterServices() {
 document.getElementById('departement').querySelector('select').addEventListener('change', filterServices);
 
 document.addEventListener('DOMContentLoaded', function() {
-    toggleVisibilityBasedOnRole(); // Set initial visibility based on the default or existing role value
+    updateGradeOptions(); // Set initial grade options based on the default or existing corps value
+    toggleVisibilityBasedOnCorps(); // Set initial visibility based on the default or existing grade value
     filterDepartements(); // Initially filter departements based on the selected pole
     filterServices(); // Initially filter services based on the selected department
 });

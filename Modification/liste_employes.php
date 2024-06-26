@@ -87,14 +87,16 @@ $result = $stmt->get_result();
                     <li class="employee-info">
                         <img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Employee Photo" class="employee-photo">
                         <div><strong>Nom complet:</strong> <?php echo htmlspecialchars($row['fullName']); ?></div>
-                        <div><strong>Term de recherche:</strong> <?php echo htmlspecialchars($search); ?></div>
+                        <div><strong>Matricule:</strong> <?php echo htmlspecialchars($row['matricule']); ?></div>
+                        <div><strong>Tel:</strong> <?php echo htmlspecialchars($row['tel']); ?></div>
+                        <div><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></div>
+                        <div><strong>Terme de recherche:</strong> <?php echo htmlspecialchars($search); ?></div>
                         <button class="expand-button" onclick="expandDetails(this)">Détails</button>
                         <div class="details" style="display:none;">
                             <div><strong>Division:</strong> <?php echo htmlspecialchars($row['division']); ?></div>
                             <div><strong>Service:</strong> <?php echo htmlspecialchars($row['service']); ?></div>
                             <div><strong>Pole:</strong> <?php echo htmlspecialchars($row['pole']); ?></div>
                             <div><strong>Rôle:</strong> <?php echo htmlspecialchars($row['role']); ?></div>
-                            <div><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></div>
                             <div><strong>Username:</strong> <?php echo htmlspecialchars($row['username']); ?></div>
                             <div><strong>Nombre de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>
                             <div><strong>Nombre de bureau:</strong> <?php echo htmlspecialchars($row['nb_bureau']); ?></div>
