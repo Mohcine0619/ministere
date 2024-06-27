@@ -10,7 +10,7 @@ $sql = "SELECT employe.*, COALESCE(departement.nom, 'No Department') as division
 LEFT JOIN departement ON employe.departement_id = departement.id 
 LEFT JOIN services ON employe.service_id = services.id 
 LEFT JOIN poles ON employe.pole_id = poles.id 
-WHERE employe.fullName LIKE ? OR departement.nom LIKE ? OR services.nom LIKE ? OR poles.nom LIKE ? OR employe.role LIKE ? OR employe.fonction LIKE ? OR employe.email LIKE ? OR employe.username LIKE ? OR employe.nb_post LIKE ? OR employe.nb_bureau LIKE ? OR employe.corps LIKE ?";
+WHERE employe.fullName LIKE ? OR departement.nom LIKE ? OR services.nom LIKE ? OR poles.nom LIKE ? OR employe.grade LIKE ? OR employe.fonction LIKE ? OR employe.email LIKE ? OR employe.username LIKE ? OR employe.nb_post LIKE ? OR employe.nb_bureau LIKE ? OR employe.corps LIKE ?";
 $stmt = $conn->prepare($sql);
 $searchTerm = "%$search%";
 $stmt->bind_param("sssssssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
@@ -54,7 +54,7 @@ $result = $stmt->get_result();
                 <div><strong>Division:</strong> <?php echo htmlspecialchars($row['division']); ?></div>
                 <div><strong>Service:</strong> <?php echo htmlspecialchars($row['service']); ?></div>
                 <div><strong>Pole:</strong> <?php echo htmlspecialchars($row['pole']); ?></div>
-                <div><strong>Rôle:</strong> <?php echo htmlspecialchars($row['role']); ?></div>
+                <div><strong>Grade:</strong> <?php echo htmlspecialchars($row['grade']); ?></div>
                 <div><strong>Fonction:</strong> <?php echo htmlspecialchars($row['fonction']); ?></div>
                 <div><strong>Nom d'utilisateur:</strong> <?php echo htmlspecialchars($row['username']); ?></div>
                 <div><strong>Nombre de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>
