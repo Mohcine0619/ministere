@@ -7,7 +7,7 @@ require_once '../backend/db.php'; // Adjust the path as needed to connect to you
 
 // Fetch poles from the database
 $poles = [];
-$result = $conn->query("SELECT id, nom, nom_directeur FROM poles");
+$result = $conn->query("SELECT id, nom FROM poles");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $poles[] = $row;
@@ -17,7 +17,7 @@ if ($result) {
 
 // Fetch departments from the database
 $departments = [];
-$result = $conn->query("SELECT id, nom, nom_directeur, nom_pole FROM departement");
+$result = $conn->query("SELECT id, nom, nom_pole FROM departement");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $departments[] = $row;
@@ -27,7 +27,7 @@ if ($result) {
 
 // Fetch services from the database
 $services = [];
-$result = $conn->query("SELECT services.id, services.nom, services.nom_chef, departement.nom AS nom_departement FROM services JOIN departement ON services.id_departement = departement.id");
+$result = $conn->query("SELECT services.id, services.nom, departement.nom AS nom_departement FROM services JOIN departement ON services.id_departement = departement.id");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $services[] = $row;
@@ -122,7 +122,6 @@ if ($result) {
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
-                <th>Nom Directeur</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -131,7 +130,6 @@ if ($result) {
                 <tr>
                     <td><?php echo htmlspecialchars($pole['id']); ?></td>
                     <td><?php echo htmlspecialchars($pole['nom']); ?></td>
-                    <td><?php echo htmlspecialchars($pole['nom_directeur']); ?></td>
                     <td class="action-buttons">
                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $pole['id']; ?>" data-type="pole">Modifier</button>
                         <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $pole['id']; ?>" data-type="pole">Supprimer</button>
@@ -141,13 +139,12 @@ if ($result) {
         </tbody>
     </table>
 
-    <h2>Liste des Départements</h2>
+    <h2>Liste des Divisions</h2>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
-                <th>Nom Directeur</th>
                 <th>Nom Pole</th>
                 <th>Actions</th>
             </tr>
@@ -157,7 +154,6 @@ if ($result) {
                 <tr>
                     <td><?php echo htmlspecialchars($department['id']); ?></td>
                     <td><?php echo htmlspecialchars($department['nom']); ?></td>
-                    <td><?php echo htmlspecialchars($department['nom_directeur']); ?></td>
                     <td><?php echo htmlspecialchars($department['nom_pole']); ?></td>
                     <td class="action-buttons">
                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $department['id']; ?>" data-type="department">Modifier</button>
@@ -173,8 +169,7 @@ if ($result) {
         <tr>
             <th>ID</th>
             <th>Nom</th>
-            <th>Nom Chef</th>
-            <th>Nom Département</th>
+            <th>Nom Division</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -183,7 +178,6 @@ if ($result) {
             <tr>
                 <td><?php echo htmlspecialchars($service['id']); ?></td>
                 <td><?php echo htmlspecialchars($service['nom']); ?></td>
-                <td><?php echo htmlspecialchars($service['nom_chef']); ?></td>
                 <td><?php echo htmlspecialchars($service['nom_departement']); ?></td>
                 <td class="action-buttons">
                     <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal" data-id="<?php echo $service['id']; ?>" data-type="service">Modifier</button>
@@ -213,17 +207,6 @@ if ($result) {
                         <label for="modify-nom">Nom:</label>
                         <input type="text" class="form-control" id="modify-nom" name="nom" required>
                     </div>
-                    <div class="form-group">
-    <label for="modify-nom-directeur">Nom Directeur:</label>
-    <select class="form-control" id="modify-nom-directeur" name="nom_directeur">
-        <option value="">Aucun</option> <!-- Default option for no director -->
-        <?php foreach ($directors as $director): ?>
-            <option value="<?php echo htmlspecialchars($director['fullName']); ?>" <?php echo $director['fullName'] === null ? 'selected' : ''; ?>>
-                <?php echo htmlspecialchars($director['fullName']) ?: 'Aucun'; ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-</div>
                     <div class="form-group" id="modify-nom-pole-group">
                         <label for="modify-nom-pole">Nom Pole:</label>
                         <select class="form-control" id="modify-nom-pole" name="nom_pole">
@@ -233,21 +216,13 @@ if ($result) {
                         </select>
                     </div>
                     <div class="form-group" id="modify-id-departement-group">
-                        <label for="modify-id-departement">Nom Département:</label>
+                        <label for="modify-id-departement">Nom Division:</label>
                         <select class="form-control" id="modify-id-departement" name="id_departement">
                             <?php foreach ($departments as $department): ?>
                                 <option value="<?php echo $department['id']; ?>"><?php echo htmlspecialchars($department['nom']); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="form-group" id="modify-nom-chef-group">
-    <label for="modify-nom-chef">Nom Chef:</label>
-    <select class="form-control" id="modify-nom-chef" name="nom_chef">
-        <?php foreach ($chefs as $chef): ?>
-            <option value="<?php echo htmlspecialchars($chef['fullName']); ?>"><?php echo htmlspecialchars($chef['fullName']); ?></option>
-        <?php endforeach; ?>
-    </select>
-</div>
                     <button type="submit" class="btn btn-primary">Sauvegarder les modifications</button>
                 </form>
             </div>
@@ -266,7 +241,7 @@ if ($result) {
                 </button>
             </div>
             <div class="modal-body">
-                Êtes-vous sr de vouloir supprimer cette entrée?
+                Êtes-vous sûr de vouloir supprimer cette entrée?
             </div>
             <div class="modal-footer">
                 <form id="deleteForm" method="POST" action="deleteEntry.php">
@@ -320,8 +295,8 @@ if ($result) {
             error: function() {
                 showMessage('danger', 'An error occurred while deleting the entry.');
             }
-                    });
         });
+    });
 
     $('#modifyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -341,12 +316,9 @@ if ($result) {
                 modal.find('#modify-nom').val(entry.nom);
                 
                 if (type === 'service') {
-                    modal.find('#modify-nom-chef-group').show();
-                    modal.find('#modify-nom-chef').val(entry.nom_chef);
                     modal.find('#modify-id-departement-group').show();
                     modal.find('#modify-id-departement').val(entry.id_departement);
                 } else {
-                    modal.find('#modify-nom-chef-group').hide();
                     modal.find('#modify-id-departement-group').hide();
                 }
 
