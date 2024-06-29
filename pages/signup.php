@@ -162,11 +162,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             </select>
         </div>
         <div class="form-group">
-            <label for="nb_post">Nombre de post:</label>
+            <label for="fonction">Fonction:</label>
+            <input type="text" class="form-control" id="fonction" name="fonction" required>
+        </div>
+        <div class="form-group">
+            <label for="nb_post">Numéro de post:</label>
             <input type="number" class="form-control" id="nb_post" name="nb_post" required>
         </div>
         <div class="form-group">
-            <label for="nb_bureau">Nombre de bureau:</label>
+            <label for="nb_bureau">Numéro de bureau:</label>
             <input type="number" class="form-control" id="nb_bureau" name="nb_bureau" required>
         </div>
         <div class="form-group" id="poleSelection">
@@ -215,6 +219,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 <option value="other">Other</option>
             </select>
         </div>
+
         <button type="submit" name="submit" class="btn btn-primary" value="SignUp">SignUp</button>
         <a href="login.php">Déjà inscrit ?</a>
     </form>
@@ -232,8 +237,8 @@ function updateGradeOptions() {
         gradeSelect.innerHTML += '<option value="INGENIEUR D\'ETAT 1ER GRADE">INGENIEUR D\'ETAT 1ER GRADE</option><option value="INGENIEUR D\'ETAT GRADE PRINCIPALE">INGENIEUR D\'ETAT GRADE PRINCIPALE</option>';
         gradeSelect.innerHTML += '<option value="INGENIEUR D\'ETAT ENCHEF 1ER GRADE">INGENIEUR D\'ETAT EN CHEF 1ER GRADE</option><option value="INGENIEUR EN CHEF GRADE PRINCIPALE">INGENIEUR EN CHEF GRADE PRINCIPALE</option>';
     } else {
-        gradeSelect.innerHTML = '<option value="Fonction2A">Fonction2A</option><option value="Fonction2B">Fonction2B</option>';
-        gradeSelect.innerHTML += '<option value="Fonction2C">Fonction2C</option><option value="Fonction2D">Fonction2D</option>';
+        gradeSelect.innerHTML = '<option value="Grade1">Grade1</option><option value="Grade2">Grade2</option>';
+        gradeSelect.innerHTML += '<option value="Grade3">Grade3</option><option value="Grade4">Grade4</option>';
     }
     // Add more conditions and options based on different corps
 }

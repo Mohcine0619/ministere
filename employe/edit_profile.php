@@ -125,11 +125,11 @@ $conn->close();
                 </select>
             </div>
             <div class="form-group">
-                <label for="nb_post">Nombre de post:</label>
+                <label for="nb_post">Numéro de post:</label>
                 <input type="number" name="nb_post" class="form-control" value="<?php echo htmlspecialchars($userData['nb_post'] ?? ''); ?>" required>
             </div>
             <div class="form-group">
-                <label for="nb_bureau">Nombre de bureau:</label>
+                <label for="nb_bureau">Numéro de bureau:</label>
                 <input type="number" name="nb_bureau" class="form-control" value="<?php echo htmlspecialchars($userData['nb_bureau'] ?? ''); ?>" required>
             </div>
             <div class="form-actions">

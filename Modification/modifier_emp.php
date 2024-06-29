@@ -168,11 +168,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             </select>
         </div>
         <div class="form-group">
-            <label for="nb_post">Nombre de post:</label>
+            <label for="fonction">Fonction:</label>
+            <input type="text" class="form-control" id="fonction" name="fonction" required>
+        </div>
+        <div class="form-group">
+            <label for="nb_post">Numéro de post:</label>
             <input type="number" class="form-control" id="nb_post" name="nb_post" value="<?= $employee['nb_post'] ?>" required>
         </div>
         <div class="form-group">
-            <label for="nb_bureau">Nombre de bureau:</label>
+            <label for="nb_bureau">Numéro de bureau:</label>
             <input type="number" class="form-control" id="nb_bureau" name="nb_bureau" value="<?= $employee['nb_bureau'] ?>" required>
         </div>
         <div class="form-group" id="poleSelection">

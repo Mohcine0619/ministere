@@ -1,0 +1,96 @@
+# Plan proposé pour la rédaction du rapport de projet fin d'étude (Filière DI)
+
+## Dédicaces
+Je dédie ce travail à ma famille et à mes amis pour leur soutien inconditionnel tout au long de ce projet. 
+
+## Remerciements
+Je tiens à remercier mon superviseur pour ses conseils et son soutien tout au long de ce projet. Je remercie également mes collègues et amis pour leur aide précieuse.
+
+## Résumé
+Ce projet consiste en la gestion des employés, des départements, des services et des pôles au sein d'une organisation. Il inclut également la gestion des congés des employés. Le projet utilise une base de données MySQL, PHP pour le backend, et HTML, CSS, JavaScript pour le frontend.
+
+## La liste des figures
+- Diagramme des cas d'utilisation
+- Diagramme de classe
+
+## La liste des tableaux
+- Table des employés
+- Table des départements
+- Table des services
+- Table des pôles
+
+## Introduction Générale
+Ce rapport présente le projet de gestion des employés, des départements, des services et des pôles au sein d'une organisation. Il inclut également la gestion des congés des employés.
+
+## Chapitre 1 : Contexte général du projet
+### Introduction
+1. Présentation de l'organisme (s'il existe)
+2. Présentation du Projet
+   - Le projet consiste en la gestion des employés, des départements, des services et des pôles au sein d'une organisation. Il inclut également la gestion des congés des employés.
+3. Planification (Diagramme de Gantt)
+### Conclusion
+
+## Chapitre 2 : Étude analytique
+### Introduction
+1. Étude préliminaire
+2. Étude de l'existant
+3. Critiques de l'existant
+4. Solution proposée
+5. Besoins fonctionnels
+   1. Besoins fonctionnels
+      - Gestion des employés
+      - Gestion des départements
+      - Gestion des services
+      - Gestion des pôles
+      - Gestion des congés
+   2. Besoins techniques
+      - Base de données MySQL
+      - PHP pour le backend
+      - HTML, CSS, JavaScript pour le frontend
+### Conclusion
+
+## Chapitre 3 : Étude conceptuelle
+### Introduction
+1. Présentation des utilisateurs
+   - Utilisateurs RH
+   - Employés
+2. Diagramme des cas d'utilisation
+
+![Diagramme des cas d'utilisation](path/to/use_case_diagram.png)
+
+3. Les diagrammes de séquences
+4. Diagramme de classe
+
+![Diagramme de classe](path/to/class_diagram.png)
+
+### Conclusion
+
+## Chapitre 4 : Étude technique
+
+### Introduction
+L'étude technique couvre la structure de la base de données, les scripts PHP pour la gestion des données, et les fichiers frontend pour l'interface utilisateur.
+
+#### Structure de la base de données
+
+## Chapitre 5 : Implémentation de solution
+
+### Introduction
+L'implémentation de la solution a été réalisée en utilisant une combinaison de technologies backend et frontend pour assurer une gestion efficace et sécurisée des données. Les principaux composants de l'implémentation incluent les scripts PHP pour la gestion des données, les fichiers frontend pour l'interface utilisateur, et la base de données MySQL pour le stockage des informations. Cette section détaille les différentes étapes de l'implémentation et les fichiers clés utilisés dans le projet.
+
+#### Scripts PHP pour la gestion des données
+Les scripts PHP sont utilisés pour gérer les différentes opérations côté serveur et l'interaction avec la base de données. Voici quelques exemples de scripts PHP utilisés :
+  
+### Conclusion
+L'implémentation de la solution a permis de créer un système intégré et efficace pour la gestion des employés, des départements, des services, des pôles et des congés. Les scripts PHP et les fichiers frontend ont été développés pour assurer une interaction fluide et sécurisée avec la base de données, offrant ainsi une expérience utilisateur optimale.
+
+## Conclusion Générale
+En conclusion, ce projet a permis de développer une solution complète et intégrée pour la gestion des ressources humaines au sein du ministère de l'économie et des finances. Grâce à l'utilisation de technologies modernes telles que MySQL, PHP, HTML, CSS et JavaScript, nous avons pu créer un système efficace et sécurisé pour la gestion des employés, des départements, des services, des pôles et des congés. Les différentes étapes du projet, de l'étude analytique à l'implémentation, ont été réalisées avec succès, permettant ainsi d'améliorer l'efficacité et la transparence de la gestion des ressources humaines au sein de l'organisation.
+
+## Les références
+1. Documentation MySQL : https://dev.mysql.com/doc/
+2. Documentation PHP : https://www.php.net/docs.php
+3. Documentation HTML : https://developer.mozilla.org/en-US/docs/Web/HTML
+4. Documentation CSS : https://developer.mozilla.org/en-US/docs/Web/CSS
+5. Documentation JavaScript : https://developer.mozilla.org/en-US/docs/Web/JavaScript
+6. PlantUML : https://plantuml.com/
+7. Bootstrap : https://getbootstrap.com/docs/5.3/getting-started/introduction/

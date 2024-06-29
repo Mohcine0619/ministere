@@ -7,12 +7,12 @@ $totalPoles = $conn->query("SELECT COUNT(*) as count FROM poles")->fetch_assoc()
 $totalDepartments = $conn->query("SELECT COUNT(*) as count FROM departement")->fetch_assoc()['count'];
 $totalServices = $conn->query("SELECT COUNT(*) as count FROM services")->fetch_assoc()['count'];
 $totalEmployees = $conn->query("SELECT COUNT(*) as count FROM employe")->fetch_assoc()['count'];
-$totalRH = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='rh'")->fetch_assoc()['count'];
-$totalDirectors = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='directeur'")->fetch_assoc()['count'];
-$totalChefs = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='chef de service'")->fetch_assoc()['count'];
-$totalRegularEmployees = $conn->query("SELECT COUNT(*) as count FROM employe WHERE role='employe'")->fetch_assoc()['count'];
+$totalRH = $conn->query("SELECT COUNT(*) as count FROM employe WHERE corps='rh'")->fetch_assoc()['count'];
+$totalDirectors = $conn->query("SELECT COUNT(*) as count FROM employe WHERE corps='Administrateurs'")->fetch_assoc()['count'];
+$totalChefs = $conn->query("SELECT COUNT(*) as count FROM employe WHERE corps='Techniciens'")->fetch_assoc()['count'];
+$totalRegularEmployees = $conn->query("SELECT COUNT(*) as count FROM employe WHERE corps='Rédacteurs'")->fetch_assoc()['count'];
 
-// Fetch the user's role from the session
+// Fetch the user's corps from the session
 if (isset($_SESSION['corps'])) {
     // Accéder aux variables de session en toute sécurité
     $user_corps = $_SESSION['corps'];
@@ -20,7 +20,6 @@ if (isset($_SESSION['corps'])) {
     // Gérer le cas où les variables de session ne sont pas définies
     $user_corps = 'default_corps';
 }
-
 
 $conn->close();
 ?>
@@ -80,15 +79,15 @@ $conn->close();
             </a>
             <a href="../employe/chercher_emp.php" class="card">
                 <h2><?php echo $totalDirectors; ?></h2>
-                <p>Total Directeurs</p>
+                <p>Total Administrateurs</p>
             </a>
             <a href="../employe/chercher_emp.php" class="card">
                 <h2><?php echo $totalChefs; ?></h2>
-                <p>Total Chefs</p>
+                <p>Total Techniciens</p>
             </a>
             <a href="../employe/chercher_emp.php" class="card">
                 <h2><?php echo $totalRegularEmployees; ?></h2>
-                <p>Total Employés Réguliers</p>
+                <p>Total Rédacteurs</p>
             </a>
         </div>
     </div>

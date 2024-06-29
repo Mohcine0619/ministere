@@ -99,8 +99,8 @@ $result = $stmt->get_result();
                             <div><strong>Grade:</strong> <?php echo htmlspecialchars($row['grade']); ?></div>
                             <div><strong>Fonction:</strong> <?php echo htmlspecialchars($row['fonction']); ?></div>
                             <div><strong>Username:</strong> <?php echo htmlspecialchars($row['username']); ?></div>
-                            <div><strong>Nombre de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>
-                            <div><strong>Nombre de bureau:</strong> <?php echo htmlspecialchars($row['nb_bureau']); ?></div>
+                            <div><strong>Numéro de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>
+                            <div><strong>Numéro de bureau:</strong> <?php echo htmlspecialchars($row['nb_bureau']); ?></div>
                             <div><strong>Corps:</strong> <?php echo htmlspecialchars($row['corps']); ?></div>
                             <button class="shorten-button" onclick="shortenDetails(this)" style="display:none;">Réduire</button>
                             <button class="modify-button" onclick="showModifyModal(<?php echo $row['id']; ?>)">Modifier</button>

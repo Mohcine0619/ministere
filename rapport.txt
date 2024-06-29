@@ -1,0 +1,129 @@
+
+################ Dédicaces
+Je dédie ce travail à ma famille, dont l'amour et le soutien inébranlables m'ont donné la force et la motivation nécessaires pour mener à bien ce projet. À mes parents, qui ont toujours cru en moi et m'ont encouragé à poursuivre mes rêves, même dans les moments les plus difficiles.
+  mes amis, pour leur compréhension et leur patience, et pour avoir été une source constante de joie et de réconfort.  mes professeurs et mentors, pour leur guidance précieuse et leurs conseils avisés, qui ont été essentiels à ma réussite.
+  Enfin, à tous ceux qui, de près ou de loin, ont contribué à ce projet par leur soutien moral, intellectuel ou matériel. Ce travail est le fruit de vos encouragements 
+et de votre confiance en moi.
+
+################ Remerciements
+
+Je tiens à exprimer ma profonde gratitude à toutes les personnes qui ont contribué à la réalisation de ce projet. 
+
+Tout d'abord, je remercie mon superviseur pour ses conseils avisés, son soutien constant et sa disponibilité tout au long de ce travail. Ses remarques constructives et son expertise ont été d'une grande aide pour mener à bien ce projet.
+
+Je remercie également mes professeurs pour leur enseignement et leur encadrement tout au long de ma formation. Leur passion pour l'enseignement et leur dévouement ont été une source d'inspiration pour moi.
+
+Un grand merci à mes collègues et amis pour leur soutien moral et leurs encouragements. Leur présence et leur aide ont été précieuses, surtout dans les moments de doute et de difficulté.
+
+Je n'oublie pas ma famille, qui a toujours cru en moi et m'a soutenu inconditionnellement. Leur amour et leur patience m'ont donné la force de persévérer et de surmonter les obstacles.
+
+Enfin, je remercie toutes les personnes qui, de près ou de loin, ont contribué à la réalisation de ce projet par leurs conseils, leur aide technique ou leur soutien moral. Ce travail est le fruit de vos efforts conjugués et de votre confiance en moi.
+
+################ Résumé
+
+Ce projet de fin d'études porte sur la gestion des employés, des Divisions, des services et des pôles au sein de la ministère de l'economie et des finances. Il inclut également la gestion des congés des employés. Le projet utilise une base de données MySQL pour stocker les informations, PHP pour le backend, et HTML, CSS, JavaScript pour le frontend.
+
+Les principales fonctionnalités du projet incluent :
+- La gestion des employés, y compris l'ajout, la modification et la suppression des informations des employés.
+- La gestion des départements, des services et des pôles, avec la possibilité de lier les employés à ces entités.
+- La gestion des congés, permettant aux employés de soumettre des demandes de congé et aux responsables de les approuver ou de les rejeter.
+
+Le projet est structuré en plusieurs fichiers PHP pour gérer les différentes fonctionnalités, ainsi que des fichiers frontend pour l'interface utilisateur. La base de données est conçue pour stocker toutes les informations nécessaires de manière efficace et sécurisée.
+
+Ce rapport détaille le contexte du projet, l'étude analytique, l'étude conceptuelle, l'étude technique et l'implémentation de la solution. Il présente également les défis rencontrés et les solutions apportées pour les surmonter.
+
+############# La liste des figures
+- Diagramme des cas d'utilisation
+- Diagramme de classe
+
+############ La liste des tableaux
+- Table des employés
+- Table des divisions
+- Table des services
+- Table des pôles
+ ## Introduction Générale
+
+Ce rapport présente un projet ambitieux de gestion des ressources humaines au sein du ministère de l'économie et des finances. L'objectif principal de ce projet est de fournir une solution complète et intégrée pour la gestion des employés, des départements, des services et des pôles. En outre, le projet inclut un module de gestion des congés, permettant aux employés de soumettre des demandes de congé et aux responsables de les approuver ou de les rejeter.
+
+Le ministère de l'économie et des finances est une institution clé chargée de la gestion des finances publiques, de la politique économique et de la régulation des marchés financiers. Il joue un rôle crucial dans le développement économique du pays en formulant et en mettant en œuvre des politiques économiques et financières efficaces.
+
+Le projet repose sur une architecture robuste utilisant une base de données MySQL pour le stockage des informations, PHP pour le développement du backend, et HTML, CSS, JavaScript pour la création d'une interface utilisateur intuitive et réactive. Cette combinaison de technologies permet de garantir une gestion efficace et sécurisée des données, tout en offrant une expérience utilisateur fluide.
+
+Les fonctionnalités clés du projet incluent :
+- La gestion des employés, avec des fonctionnalités d'ajout, de modification et de suppression des informations des employés.
+- La gestion des départements, des services et des pôles, avec la possibilité de lier les employés à ces entités.
+- La gestion des congés, permettant une soumission facile des demandes de congé et une gestion simplifiée des approbations.
+
+Ce rapport est structuré en plusieurs chapitres détaillant le contexte du projet, l'étude analytique, l'étude conceptuelle, l'étude technique et l'implémentation de la solution. Chaque chapitre met en lumière les défis rencontrés et les solutions apportées pour les surmonter, offrant ainsi une vue d'ensemble complète du projet et de son développement.
+
+En somme, ce projet vise à améliorer l'efficacité et la transparence de la gestion des ressources humaines au sein du ministère, tout en offrant une solution moderne et évolutive adaptée aux besoins actuels et futurs de l'organisation.
+
+## Chapitre 1 : Contexte général du projet
+### Introduction
+1. Présentation de l'organisme
+   - Le ministère de l'économie et des finances est une institution clé chargée de la gestion des finances publiques, de la politique économique et de la régulation des marchés financiers. Il joue un rôle crucial dans le développement économique du pays en formulant et en mettant en œuvre des politiques économiques et financières efficaces. Le ministère est structuré en plusieurs pôles, départements et services, chacun ayant des responsabilités spécifiques pour assurer une gestion efficace et transparente des ressources économiques et financières du pays.
+
+2. Présentation du Projet
+   - Le projet consiste en la gestion des employés, des divisions, des services et des pôles au sein du ministère de l'économie et des finances. Il inclut également la gestion des congés des employés. L'objectif principal est de fournir une solution intégrée et efficace pour la gestion des ressources humaines, en utilisant une base de données MySQL pour le stockage des informations, PHP pour le backend, et HTML, CSS, JavaScript pour le frontend.
+
+3. Planification (Diagramme de Gantt)
+   - La planification du projet a été réalisée à l'aide d'un diagramme de Gantt, qui permet de visualiser les différentes étapes du projet et leur chronologie. Le diagramme de Gantt inclut les phases de conception, de développement, de test et de déploiement du projet.
+
+### Conclusion
+Ce chapitre a présenté le contexte général du projet, en mettant en lumière l'importance de l'organisme et les objectifs du projet. La planification détaillée à l'aide d'un diagramme de Gantt a permis de structurer les différentes étapes du projet de manière claire et organisée.
+
+
+## Chapitre 2 : Étude analytique
+### Introduction
+Ce chapitre présente une analyse détaillée du projet, en commençant par une étude préliminaire, suivie de l'étude de l'existant, des critiques de l'existant, de la solution proposée, et enfin des besoins fonctionnels et techniques.
+
+1. Étude préliminaire
+   - L'étude préliminaire a consisté à identifier les besoins de l'organisation en matière de gestion des ressources humaines. Il a été constaté que le ministère de l'économie et des finances avait besoin d'une solution intégrée pour gérer efficacement les employés, les Divisions, les services et les pôles, ainsi que les congés des employés. Cette solution devait être capable de centraliser toutes les informations pertinentes et de les rendre facilement accessibles aux utilisateurs autorisés.
+
+2. Étude de l'existant
+   - L'étude de l'existant a révélé que le ministère utilisait des systèmes disparates pour gérer les différentes composantes de ses ressources humaines. Ces systèmes étaient souvent manuels ou semi-automatisés, ce qui entraînait des inefficacités, des erreurs de saisie et des difficultés de coordination entre les différents départements. De plus, il n'y avait pas de solution centralisée pour la gestion des congés, ce qui compliquait le suivi et l'approbation des demandes de congé.
+
+3. Critiques de l'existant
+   - Les principaux problèmes identifiés dans les systèmes existants étaient les suivants :
+     - Manque de centralisation des données, entraînant des redondances et des incohérences.
+     - Processus manuels et semi-automatisés, sources d'erreurs et de pertes de temps.
+     - Difficulté à accéder aux informations en temps réel, ce qui ralentissait la prise de décision.
+     - Absence de fonctionnalités intégrées pour la gestion des congés, compliquant le suivi et l'approbation des demandes.
+
+4. Solution proposée
+   - La solution proposée consiste en la mise en place d'un système intégré de gestion des ressources humaines, utilisant une base de données MySQL pour le stockage des informations, PHP pour le backend, et HTML, CSS, JavaScript pour le frontend. Ce système permettra de centraliser toutes les informations relatives aux employés, aux départements, aux services et aux pôles, et d'automatiser les processus de gestion des congés. Les utilisateurs autorisés pourront accéder aux informations en temps réel, ce qui facilitera la prise de décision et améliorera l'efficacité globale de l'organisation.
+
+5. Besoins fonctionnels
+   1. Besoins fonctionnels
+      - Gestion des employés : ajout, modification, suppression et consultation des informations des employés.
+      - Gestion des Divisions : ajout, modification, suppression et consultation des informations des divisions.
+      - Gestion des services : ajout, modification, suppression et consultation des informations des services.
+      - Gestion des pôles : ajout, modification, suppression et consultation des informations des pôles.
+      - Gestion des congés : soumission, approbation, rejet et suivi des demandes de congé.
+
+   2. Besoins techniques
+      - Base de données MySQL : pour le stockage sécurisé et efficace des informations.
+      - PHP pour le backend : pour la gestion des opérations côté serveur et l'interaction avec la base de données.
+      - HTML, CSS:bootstrap, JavaScript pour le frontend : pour la création d'une interface utilisateur intuitive et réactive.
+
+### Conclusion
+Ce chapitre a fourni une analyse approfondie du projet, en identifiant les besoins de l'organisation, en évaluant les systèmes existants, en proposant une solution intégrée et en détaillant les besoins fonctionnels et techniques. Cette analyse constitue la base sur laquelle repose le développement et la mise en œuvre de la solution proposée.
+
+
+## Chapitre 3 : Étude conceptuelle
+### Introduction
+1. Présentation des utilisateurs
+   - Utilisateurs RH
+   - Employés
+2. Diagramme des cas d'utilisation
+
+![Diagramme des cas d'utilisation](path/to/use_case_diagram.png)
+
+3. Les diagrammes de séquences
+4. Diagramme de classe
+
+![Diagramme de classe](path/to/class_diagram.png)
+
+### Conclusion
+
+Ce chapitre a présenté l'étude conceptuelle du projet, en détaillant les différents utilisateurs et leurs interactions avec le système à travers le diagramme des cas d'utilisation et le diagramme de classe ont permis de visualiser les interactions dynamiques et la structure statique du système, respectivement. Ces outils de modélisation ont été essentiels pour comprendre les exigences du système et pour concevoir une solution robuste et évolutive. En somme, l'étude conceptuelle a fourni une base solide pour le développement et la mise en œuvre du projet, en assurant que toutes les fonctionnalités nécessaires sont bien définies et intégrées de manière cohérente.
