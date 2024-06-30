@@ -3,8 +3,8 @@ session_start();
 require_once '../backend/db.php';
 
 // Check if the user is logged in and has the RH role
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'rh') {
-    header('Location: login.php');
+if (!isset($_SESSION['corps']) || $_SESSION['corps'] !== 'rh') {
+    header('Location: ../pages/home.php');
     exit();
 }
 

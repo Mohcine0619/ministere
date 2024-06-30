@@ -127,3 +127,32 @@ Ce chapitre a fourni une analyse approfondie du projet, en identifiant les besoi
 ### Conclusion
 
 Ce chapitre a présenté l'étude conceptuelle du projet, en détaillant les différents utilisateurs et leurs interactions avec le système à travers le diagramme des cas d'utilisation et le diagramme de classe ont permis de visualiser les interactions dynamiques et la structure statique du système, respectivement. Ces outils de modélisation ont été essentiels pour comprendre les exigences du système et pour concevoir une solution robuste et évolutive. En somme, l'étude conceptuelle a fourni une base solide pour le développement et la mise en œuvre du projet, en assurant que toutes les fonctionnalités nécessaires sont bien définies et intégrées de manière cohérente.
+## Chapitre 4 : Étude technique
+
+### Introduction
+L'étude technique couvre la structure de la base de données, les scripts PHP pour la gestion des données, et les fichiers frontend pour l'interface utilisateur.
+
+#### Structure de la base de données
+
+## Chapitre 5 : Implémentation de solution
+
+### Introduction
+L'implémentation de la solution a été réalisée en utilisant une combinaison de technologies backend et frontend pour assurer une gestion efficace et sécurisée des données. Les principaux composants de l'implémentation incluent les scripts PHP pour la gestion des données, les fichiers frontend pour l'interface utilisateur, et la base de données MySQL pour le stockage des informations. Cette section détaille les différentes étapes de l'implémentation et les fichiers clés utilisés dans le projet.
+
+#### Scripts PHP pour la gestion des données
+Les scripts PHP sont utilisés pour gérer les différentes opérations côté serveur et l'interaction avec la base de données. Voici quelques exemples de scripts PHP utilisés :
+  
+### Conclusion
+L'implémentation de la solution a permis de créer un système intégré et efficace pour la gestion des employés, des départements, des services, des pôles et des congés. Les scripts PHP et les fichiers frontend ont été développés pour assurer une interaction fluide et sécurisée avec la base de données, offrant ainsi une expérience utilisateur optimale.
+
+## Conclusion Générale
+En conclusion, ce projet a permis de développer une solution complète et intégrée pour la gestion des ressources humaines au sein du ministère de l'économie et des finances. Grâce à l'utilisation de technologies modernes telles que MySQL, PHP, HTML, CSS et JavaScript, nous avons pu créer un système efficace et sécurisé pour la gestion des employés, des départements, des services, des pôles et des congés. Les différentes étapes du projet, de l'étude analytique à l'implémentation, ont été réalisées avec succès, permettant ainsi d'améliorer l'efficacité et la transparence de la gestion des ressources humaines au sein de l'organisation.
+
+## Les références
+1. Documentation MySQL : https://dev.mysql.com/doc/
+2. Documentation PHP : https://www.php.net/docs.php
+3. Documentation HTML : https://developer.mozilla.org/en-US/docs/Web/HTML
+4. Documentation CSS : https://developer.mozilla.org/en-US/docs/Web/CSS
+5. Documentation JavaScript : https://developer.mozilla.org/en-US/docs/Web/JavaScript
+6. PlantUML : https://plantuml.com/
+7. Bootstrap : https://getbootstrap.com/docs/5.3/getting-started/introduction/

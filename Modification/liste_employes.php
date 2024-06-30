@@ -65,6 +65,12 @@ $result = $stmt->get_result();
         .add-button:hover {
             background-color: #0056b3; /* Darker shade on hover */
         }
+        .employee-photo {
+            width: 100px; /* Adjust the size as needed */
+            height: 100px; /* Adjust the size as needed */
+            object-fit: cover;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>

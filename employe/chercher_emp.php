@@ -26,6 +26,14 @@ $result = $stmt->get_result();
     <?php include '../pages/boot.php'; ?>
     <link rel="stylesheet" href="../style/chercher_emp.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .employee-photo {
+            width: 100px; /* Adjust the size as needed */
+            height: 100px; /* Adjust the size as needed */
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    </style>
     <?php include '../pages/nav.php'; ?>
 </head>
 <body>
@@ -60,7 +68,7 @@ $result = $stmt->get_result();
                 <div><strong>Numéro de post:</strong> <?php echo htmlspecialchars($row['nb_post']); ?></div>
                 <div><strong>Numéro de bureau:</strong> <?php echo htmlspecialchars($row['nb_bureau']); ?></div>
                 <div><strong>Corps:</strong> <?php echo htmlspecialchars($row['corps']); ?></div>
-                <button class="shorten-button" onclick="shortenDetails(this)" style="display:none;">Réduire</button>
+                <button class="shorten-button" onclick="shortenDetails(this)" style="display:none;">Rduire</button>
             </div>
         </li>
     <?php endwhile; ?>

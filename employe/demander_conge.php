@@ -53,18 +53,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])){
         $message = "Erreur lors de la préparation de la déclaration : " . $conn->error;
     }
 }
-$manager_query = "SELECT id, fullName FROM employe WHERE role = 'RH'";
+$manager_query = "SELECT id, fullName FROM employe WHERE corps = 'RH'";
 $manager_result = $conn->query($manager_query);
 $managers = $manager_result->fetch_all(MYSQLI_ASSOC);
 // Récupérer toutes les demandes de congé pour l'utilisateur connecté
 
-$query = "SELECT c.id, c.categorie, c.date_debut, c.date_fin, c.motif, c.statut, e.fullName, r.fullName AS responsableName FROM conges c JOIN employe e ON c.id_employe = e.id LEFT JOIN employe r ON c.id_responsable = r.id WHERE c.id_employe = ?";
+$query = "SELECT c.id, c.categorie, c.date_debut, c.date_fin, c.motif, c.statut, e.fullName, r.fullName AS responsableName, DATEDIFF(c.date_fin, c.date_debut) + 1 AS periode FROM conges c JOIN employe e ON c.id_employe = e.id LEFT JOIN employe r ON c.id_responsable = r.id WHERE c.id_employe = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $employee_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $leave_requests = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
+
+// Fetch all leave dates for the calendar
+$calendar_query = "SELECT date_debut, date_fin FROM conges";
+$calendar_result = $conn->query($calendar_query);
+$calendar_dates = $calendar_result->fetch_all(MYSQLI_ASSOC);
+
 $conn->close(); // Fermer la connexion après toutes les opérations
 ?><!DOCTYPE html>
 <html lang="fr">
@@ -74,6 +80,8 @@ $conn->close(); // Fermer la connexion après toutes les opérations
     <title>Formulaire de demande de congé</title>
     <?php include '../pages/boot.php'; ?>
     <?php include '../pages/nav.php'; ?>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
     <style>
         /* Style général du conteneur */
         .container{
@@ -152,11 +160,97 @@ $conn->close(); // Fermer la connexion après toutes les opérations
             background-color:#d4edda; /* Couleur de fond verte pour le succès */
             border-color:#c3e6cb; /* Couleur de bordure verte pour le succès */
         }
+        /* Style du calendrier */
+        #calendar {
+            max-width: 900px;
+            margin: 20px auto;
+        }
+        /* Style de la légende */
+        .legend {
+            max-width: 900px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-around;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        /* Style des événements du calendrier */
+        .fc-event {
+            background-color: #007bff; /* Couleur de fond par défaut */
+            color: #fff; /* Couleur de texte par défaut */
+            border-color: #007bff; /* Couleur de bordure par défaut */
+        }
+        /* Couleurs pour les événements du calendrier */
+        .fc-event.fc-event-used-lot {
+            background-color: #007bff; /* Utilisé beaucoup */
+            border-color: #007bff;
+        }
+        .fc-event.fc-event-used-some {
+            background-color: #007bff; /* Utilisé un peu */
+            border-color: #007bff;
+            opacity: 0.5;
+        }
+        .fc-event.fc-event-used-little {
+            background-color: #007bff; /* Utilisé peu */
+            border-color: #007bff;
+            opacity: 0.2;
+        }
     </style>
     <script>
         function cancelRequest(){
             window.location.href = '../pages/home.php';
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'fr', // Set locale to French
+                buttonText: {
+                    today: 'Aujourd\'hui' // Change "today" button text
+                },
+                monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'], // Change month names
+                events: [
+                    <?php 
+                    $date_counts = [];
+                    foreach($calendar_dates as $date) {
+                        $period = new DatePeriod(
+                            new DateTime($date['date_debut']),
+                            new DateInterval('P1D'),
+                            (new DateTime($date['date_fin']))->modify('+1 day')
+                        );
+                        foreach ($period as $dt) {
+                            $date_str = $dt->format('Y-m-d');
+                            if (!isset($date_counts[$date_str])) {
+                                $date_counts[$date_str] = 0;
+                            }
+                            $date_counts[$date_str]++;
+                        }
+                    }
+                    foreach($date_counts as $date => $count): 
+                        $color = '#d4edda'; // Default light green
+                        if ($count > 5) {
+                            $color = '#155724'; // Dark green for high usage
+                        } elseif ($count > 2) {
+                            $color = '#28a745'; // Medium green for moderate usage
+                        }
+                    ?>
+                    {
+                        start: '<?php echo $date; ?>',
+                        display: 'background',
+                        backgroundColor: '<?php echo $color; ?>'
+                    },
+                    <?php endforeach; ?>
+                ]
+            });
+            calendar.render();
+        });
     </script>
 </head>
 <body>
@@ -171,7 +265,7 @@ $conn->close(); // Fermer la connexion après toutes les opérations
    ?>
 <form action="demander_conge.php" method="POST">
 <div class="form-group">
-        <label for="category">Catégorie de congé :</label>
+        <label for="category">Catégorie de cong :</label>
         <select class="form-control" id="category" name="category" required>
             <option value="annuel">Congé annuel</option>
             <option value="maladie">Congé de maladie</option>
@@ -210,6 +304,7 @@ $conn->close(); // Fermer la connexion après toutes les opérations
                 <tr>
                     <th>Date de début</th>
                     <th>Date de fin</th>
+                    <th>Période</th>
                     <th>Motif</th>
                     <th>Catégorie</th>
                     <th>Responsable</th>
@@ -222,6 +317,7 @@ $conn->close(); // Fermer la connexion après toutes les opérations
         <tr>
             <td><?php echo htmlspecialchars($leave['date_debut']); ?></td>
             <td><?php echo htmlspecialchars($leave['date_fin']); ?></td>
+            <td><?php echo htmlspecialchars($leave['periode']); ?> jours</td>
             <td><?php echo htmlspecialchars($leave['motif']); ?></td>
             <td><?php echo htmlspecialchars($leave['categorie']); ?></td>
             <td><?php echo htmlspecialchars($leave['responsableName']); ?></td>
@@ -239,6 +335,23 @@ $conn->close(); // Fermer la connexion après toutes les opérations
     <?php else: ?>
         <div class="alert alert-info" role="alert">Aucune demande de congé trouvée.</div>
     <?php endif; ?>
+    
+    <!-- Calendar section -->
+    <div id="calendar"></div>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #155724;"></div>
+            <span>Utilisation élevée</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #28a745;"></div>
+            <span>Utilisation modérée</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #d4edda;"></div>
+            <span>Faible utilisation</span>
+        </div>
+    </div>
 </div>
 <?php include '../pages/footer.php'; ?>
 </body>
